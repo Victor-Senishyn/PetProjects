@@ -1,0 +1,15 @@
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.GeneratedMSBuildEditorConfig.editorconfig
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.AssemblyInfoInputs.cache
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.AssemblyInfo.cs
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.csproj.CoreCompileInputs.cache
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.sourcelink.json
+D:\VisualStudio\projects\CinemaSim\CinemaSim\bin\Debug\net8.0\CinemaSim.exe
+D:\VisualStudio\projects\CinemaSim\CinemaSim\bin\Debug\net8.0\CinemaSim.deps.json
+D:\VisualStudio\projects\CinemaSim\CinemaSim\bin\Debug\net8.0\CinemaSim.runtimeconfig.json
+D:\VisualStudio\projects\CinemaSim\CinemaSim\bin\Debug\net8.0\CinemaSim.dll
+D:\VisualStudio\projects\CinemaSim\CinemaSim\bin\Debug\net8.0\CinemaSim.pdb
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.dll
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\refint\CinemaSim.dll
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.pdb
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\CinemaSim.genruntimeconfig.cache
+D:\VisualStudio\projects\CinemaSim\CinemaSim\obj\Debug\net8.0\ref\CinemaSim.dll
