@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VisualStudio\\projects\\CinemaSim\\CinemaSim\\CinemaSim.csproj",
+      "projectUniqueName": "C:\\Users\\Victor\\Source\\Repos\\Victor\\CinemaSim\\CinemaSim\\CinemaSim.csproj",
       "projectName": "CinemaSim",
-      "projectPath": "D:\\VisualStudio\\projects\\CinemaSim\\CinemaSim\\CinemaSim.csproj",
+      "projectPath": "C:\\Users\\Victor\\Source\\Repos\\Victor\\CinemaSim\\CinemaSim\\CinemaSim.csproj",
       "packagesPath": "C:\\Users\\Victor\\.nuget\\packages\\",
-      "outputPath": "D:\\VisualStudio\\projects\\CinemaSim\\CinemaSim\\obj\\",
+      "outputPath": "C:\\Users\\Victor\\Source\\Repos\\Victor\\CinemaSim\\CinemaSim\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\VisualStudio\\shared\\NuGetPackages"

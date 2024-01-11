@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Channels;
@@ -7,65 +9,65 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class Cinema
+    public class Cinema : IEnumerable<Movie>, IEnumerable<KeyValuePair<DateTime, Movie>>
     {
         private List<Movie> _movies;
 
-        private Dictionary<int, Movie> _schedule;
+        private Dictionary<DateTime, Movie> _schedule;
 
         public Cinema() => _movies = new List<Movie>();
 
         public Cinema(params Movie[] movies) => _movies = new List<Movie>(movies);
 
-        private void ShowSchedule()
+        public IEnumerable<KeyValuePair<DateTime, Movie>> GetSchedule()
         {
-            int i = 1;
-            Console.WriteLine("Schedule:");
             foreach (var movie in _schedule)
-                Console.WriteLine($"{i++}) {TimeSpan.FromMinutes(movie.Key).ToString(@"hh\:mm")} - {movie.Value}");
+                yield return movie;
         }
 
         public void AddMovie(Movie movie) => _movies.Add(movie);
 
-        public void ShowFilms() => _movies.ForEach(movie => Console.WriteLine(movie));
-
+        public IEnumerable<Movie> GetFilms()
+        {
+            foreach (var movie in _movies)
+                yield return movie;
+        }
         public void AddMoviesToSchedule(params string[] movieNames)
         {
-            _schedule = new Dictionary<int, Movie>(); 
-            int workTime = 540;
-            int closingInMinutes = 1260;
+            _schedule = new Dictionary<DateTime, Movie>();
+            DateTime workTime = Convert.ToDateTime("09:00");
+            DateTime closing = Convert.ToDateTime("21:00");
 
             foreach (var movieName in movieNames)
             {
                 var movie = _movies.FirstOrDefault(x => x.Name == movieName);
-                if (movie != null && movie.TimeOfTheFilm <= closingInMinutes - workTime)
+                if (movie != null && movie.TimeOfTheFilm <= closing)
                 {
                     _schedule.Add(workTime, movie);
-                    workTime += movie.TimeOfTheFilm;
+                    workTime = workTime.Add(movie.TimeOfTheFilm.TimeOfDay);
                 }
             }
         }
 
-        public Ticket ReserveSeat()
+        public Ticket ReserveSeat(DateTime time)
         {
-            ShowSchedule();
-            Console.WriteLine($"\nEnter the movie time:");
-            string time = Console.ReadLine();
 
             foreach (var movie in _schedule)
             {
-                if (time == TimeSpan.FromMinutes(movie.Key).ToString(@"hh\:mm"))
+                if (time == movie.Key)
                 {
                     var ticket = new Ticket(movie.Value, time);
-                    Console.WriteLine(ticket);
                     return ticket;
                 }
             }
-
-            Console.WriteLine("You choise wrong time. If you want quit Enter 'q'");
-            if (Console.ReadLine() == "q")
-                return null;
-            return ReserveSeat();
+            return null;
         }
+
+        public IEnumerator<Movie> GetEnumerator() => _movies.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_movies).GetEnumerator();
+
+        IEnumerator<KeyValuePair<DateTime, Movie>> IEnumerable<KeyValuePair<DateTime, Movie>>.GetEnumerator() 
+            => ((IEnumerable<KeyValuePair<DateTime, Movie>>)_schedule).GetEnumerator();
     }
 }

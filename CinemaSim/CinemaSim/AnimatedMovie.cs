@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class AnimatedMovie : Movie
+    public class AnimatedMovie : Movie
     {
-        private string _animationType;
+        public string AnimationType { get; }
 
-        public AnimatedMovie(string name, ushort releaseDate, ushort timeOfTheFilm, string animationType) 
+        public AnimatedMovie(string name, ushort releaseDate, string timeOfTheFilm, string animationType) 
             : base(name, releaseDate, timeOfTheFilm)
-            => _animationType = animationType;
+            => AnimationType = animationType;
     }
 }

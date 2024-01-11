@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class ForeignMovie : Movie
+    public class ForeignMovie : Movie
     {
-        private string _language;
+        public string Language;
 
-        public ForeignMovie(string name, ushort releaseDate, ushort timeOfTheFilm, string language) 
+        public ForeignMovie(string name, ushort releaseDate, string timeOfTheFilm, string language) 
             : base(name, releaseDate, timeOfTheFilm)
-            => _language = language;
+            => Language = language;
     }
 }

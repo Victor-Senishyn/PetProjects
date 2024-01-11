@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CinemaSim")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+acb2726ff9b8f2d9d2fd37588917b99497d5d11b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0bb1944e4304b92d95512599d980df45a10144f")]
 [assembly: System.Reflection.AssemblyProductAttribute("CinemaSim")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CinemaSim")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class Movie
+    public class Movie
     {
         protected ushort releaseDate;
         public string Name { get; }
-        public ushort TimeOfTheFilm { get; }
-        public string FormatForTime => (TimeSpan.FromMinutes(TimeOfTheFilm)).ToString(@"hh\:mm");
+        public DateTime TimeOfTheFilm { get; }
 
-        public Movie(string name, ushort releaseDate, ushort timeOfTheFilm)
-            => (this.Name, this.releaseDate, this.TimeOfTheFilm) = (name, releaseDate, timeOfTheFilm);
+        public Movie(string name, ushort releaseDate, string timeOfTheFilm)
+            => (this.Name, this.releaseDate, this.TimeOfTheFilm) = (name, releaseDate, Convert.ToDateTime(timeOfTheFilm));
 
-        public override string ToString() => $"Name: {Name} - {releaseDate} \nTime of the film: {FormatForTime}";
+        public override string ToString() => $"Name: {Name} - {releaseDate} \nTime of the film: {TimeOfTheFilm}";
     }
 }

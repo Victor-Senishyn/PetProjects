@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class Ticket
+    public class Ticket
     {
         private Movie _movie;
-        private string _time;
+        private DateTime _time;
 
-        public Ticket(Movie movie, string time) => (_movie, _time) = (movie, time);
+        public Ticket(Movie movie, DateTime time) => (_movie, _time) = (movie, time);
         
         public override string ToString() => $"Your movie is {_movie} \nwill start at {_time}";
     }
