@@ -10,9 +10,9 @@ namespace CinemaSim
     internal class Schedule
     {
         private readonly DateTime _closing = Convert.ToDateTime("21:00");
-        public List<MovieScreening> FilmsInSchedule { get; set; }
+        public Dictionary<DateTime,Movie> FilmsInSchedule { get; set; }
 
-        public Schedule() => FilmsInSchedule = new List<MovieScreening>();
+        public Schedule() => FilmsInSchedule = new Dictionary<DateTime, Movie>();
 
         public void AddMoviesToSchedule(List<Movie> movies)
         {
@@ -20,10 +20,10 @@ namespace CinemaSim
 
             foreach (var movie in movies)
             {
-                if (movie != null && movie.TimeOfTheFilm <= _closing)
+                if (movie != null && movie.Duration <= _closing)
                 {
-                    FilmsInSchedule.Add(new MovieScreening(currentTime, movie));
-                    currentTime = currentTime.Add(movie.TimeOfTheFilm.TimeOfDay);
+                    FilmsInSchedule.Add(currentTime, movie);
+                    currentTime = currentTime.Add(movie.Duration.TimeOfDay);
                 }
             }
         }
@@ -33,9 +33,9 @@ namespace CinemaSim
 
             foreach (var movie in FilmsInSchedule)
             {
-                if (time == movie.StartTime)
+                if (time == movie.Key)
                 {
-                    var ticket = new Ticket(movie.Screening, time);
+                    var ticket = new Ticket(movie.Value, time);
                     return ticket;
                 }
             }

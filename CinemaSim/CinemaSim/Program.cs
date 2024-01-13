@@ -22,10 +22,9 @@ Console.Clear();
 var schedule = new Schedule();
 schedule.AddMoviesToSchedule(cinema.Movies);
 foreach (var movieScreening in schedule.FilmsInSchedule)
-    Console.WriteLine($"{movieScreening.StartTime} - {movieScreening.Screening}");
+    Console.WriteLine($"{movieScreening.Key} - {movieScreening.Value}");
 
 Console.WriteLine("Enter the time in the format 00:00");
-
 if(DateTime.TryParse(Console.ReadLine(), out var time))
 {
     try
@@ -35,11 +34,11 @@ if(DateTime.TryParse(Console.ReadLine(), out var time))
     }
     catch (InvalidTicketReservationException ex)
     {
-        Console.WriteLine($"Exception details: {ex.Message}");
+        Console.WriteLine(ex.Message);
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Exception details: {ex.Message}");
+        Console.WriteLine($"Unexpected error occurred:");
     }
 }
 else 
