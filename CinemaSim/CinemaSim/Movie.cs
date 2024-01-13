@@ -13,8 +13,9 @@ namespace CinemaSim
         public DateTime TimeOfTheFilm { get; }
 
         public Movie(string name, ushort releaseDate, string timeOfTheFilm)
-            => (this.Name, this.releaseDate, this.TimeOfTheFilm) = (name, releaseDate, Convert.ToDateTime(timeOfTheFilm));
+            => (this.Name, this.releaseDate, this.TimeOfTheFilm) 
+                = (name, releaseDate, Convert.ToDateTime(timeOfTheFilm));
 
-        public override string ToString() => $"Name: {Name} - {releaseDate} \nTime of the film: {TimeOfTheFilm}";
+        public override string ToString() => $"Name: {Name} - {releaseDate} \nTime of the film: {TimeOfTheFilm.TimeOfDay}";
     }
 }

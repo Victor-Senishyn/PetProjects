@@ -1,4 +1,5 @@
-﻿using CinemaSim;
+﻿using System.Runtime.CompilerServices;
+using CinemaSim;
 
 var movies = new List<Movie>()
 {
@@ -11,19 +12,31 @@ var movies = new List<Movie>()
 };
 
 var cinema = new Cinema(movies.ToArray());
-foreach (var movie in cinema.GetFilms())
+foreach (var movie in cinema)
     Console.WriteLine(movie);
 
 Console.WriteLine("Press any button to continue:");
 Console.ReadKey();
 Console.Clear();
 
-cinema.AddMoviesToSchedule("Interstellar", "Sponge Bob", "Parasite", "Forrest Gump", "La La Land", "Unknown Film");
-foreach (var movie in cinema.GetSchedule())
-    Console.WriteLine(movie);
-DateTime time = Convert.ToDateTime(Console.ReadLine());
+var schedule = new Schedule();
+schedule.AddMoviesToSchedule(cinema.Movies);
+foreach (var movieScreening in schedule)
+    Console.WriteLine($"{movieScreening.StartTime} - {movieScreening.Screening}");
 
-var ticket = cinema.ReserveSeat(time);
-Console.WriteLine(ticket == null ? "Wrong input" : ticket);
+if(DateTime.TryParse(Console.ReadLine(), out var time))
+{
+    try
+    {
+        var ticket = schedule.ReserveSeat(time);
+        Console.WriteLine(ticket);
+    }
+    catch (InvalidTicketReservationException ex)
+    {
+        Console.WriteLine($"Exception details: {ex}");
+    }
+}
+else 
+    Console.WriteLine($"Time entered is in the wrong format");
 
 Console.ReadKey();
