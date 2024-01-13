@@ -9,18 +9,14 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    public class Cinema : IEnumerable<Movie>
+    public class Cinema
     {
-        public List<Movie> Movies;
+        public List<Movie> Movies { get; set; }
 
         public Cinema() => Movies = new List<Movie>();
 
         public Cinema(params Movie[] movies) => Movies = new List<Movie>(movies);
 
         public void AddMovie(Movie movie) => Movies.Add(movie);
-
-        public IEnumerator<Movie> GetEnumerator() => Movies.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)Movies).GetEnumerator();
     }
 }

@@ -12,7 +12,7 @@ var movies = new List<Movie>()
 };
 
 var cinema = new Cinema(movies.ToArray());
-foreach (var movie in cinema)
+foreach (var movie in cinema.Movies)
     Console.WriteLine(movie);
 
 Console.WriteLine("Press any button to continue:");
@@ -21,8 +21,10 @@ Console.Clear();
 
 var schedule = new Schedule();
 schedule.AddMoviesToSchedule(cinema.Movies);
-foreach (var movieScreening in schedule)
+foreach (var movieScreening in schedule.FilmsInSchedule)
     Console.WriteLine($"{movieScreening.StartTime} - {movieScreening.Screening}");
+
+Console.WriteLine("Enter the time in the format 00:00");
 
 if(DateTime.TryParse(Console.ReadLine(), out var time))
 {
@@ -33,7 +35,11 @@ if(DateTime.TryParse(Console.ReadLine(), out var time))
     }
     catch (InvalidTicketReservationException ex)
     {
-        Console.WriteLine($"Exception details: {ex}");
+        Console.WriteLine($"Exception details: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Exception details: {ex.Message}");
     }
 }
 else 

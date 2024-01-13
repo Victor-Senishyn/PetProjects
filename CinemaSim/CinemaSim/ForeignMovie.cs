@@ -12,6 +12,6 @@ namespace CinemaSim
 
         public ForeignMovie(string name, ushort releaseDate, string timeOfTheFilm, string language) 
             : base(name, releaseDate, timeOfTheFilm)
-            => Language = language;
+                => Language = language;
     }
 }

@@ -12,6 +12,6 @@ namespace CinemaSim
 
         public AnimatedMovie(string name, ushort releaseDate, string timeOfTheFilm, string animationType) 
             : base(name, releaseDate, timeOfTheFilm)
-            => AnimationType = animationType;
+                => AnimationType = animationType;
     }
 }

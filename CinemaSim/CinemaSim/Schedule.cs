@@ -7,31 +7,31 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class Schedule : IEnumerable<MovieScreening>
+    internal class Schedule
     {
-        private List<MovieScreening> _schedule;
         private readonly DateTime _closing = Convert.ToDateTime("21:00");
+        public List<MovieScreening> FilmsInSchedule { get; set; }
 
-        public Schedule() => _schedule = new List<MovieScreening>();
+        public Schedule() => FilmsInSchedule = new List<MovieScreening>();
 
         public void AddMoviesToSchedule(List<Movie> movies)
         {
-            DateTime workTime = Convert.ToDateTime("09:00");
+            DateTime currentTime = Convert.ToDateTime("09:00");
 
             foreach (var movie in movies)
             {
                 if (movie != null && movie.TimeOfTheFilm <= _closing)
                 {
-                    _schedule.Add(new MovieScreening(workTime, movie));
-                    workTime = workTime.Add(movie.TimeOfTheFilm.TimeOfDay);
+                    FilmsInSchedule.Add(new MovieScreening(currentTime, movie));
+                    currentTime = currentTime.Add(movie.TimeOfTheFilm.TimeOfDay);
                 }
             }
         }
-        public void RemoveMoviesFromSchedule() => _schedule.Clear();
+        public void RemoveMoviesFromSchedule() => FilmsInSchedule.Clear();
         public Ticket ReserveSeat(DateTime time)
         {
 
-            foreach (var movie in _schedule)
+            foreach (var movie in FilmsInSchedule)
             {
                 if (time == movie.StartTime)
                 {
@@ -41,9 +41,5 @@ namespace CinemaSim
             }
             throw new InvalidTicketReservationException("Incorrect time entered");
         }
-
-        public IEnumerator<MovieScreening> GetEnumerator() => _schedule.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_schedule).GetEnumerator();
     }
 }
