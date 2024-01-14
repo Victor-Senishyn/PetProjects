@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace CinemaSim
 {
@@ -10,9 +11,12 @@ namespace CinemaSim
     {
         private Movie _movie;
         private DateTime _time;
-
-        public Ticket(Movie movie, DateTime time) => (_movie, _time) = (movie, time);
+        private int _place;
+        [XmlIgnore]
+        public decimal Price { get; set; } = 150.20m;
+        public Ticket(){}
+        public Ticket(Movie movie, DateTime time, int place) => (_movie, _time, _place) = (movie, time, place);
         
-        public override string ToString() => $"Your movie is {_movie} \nwill start at {_time}";
+        public override string ToString() => $"Your movie is {_movie} | Your place is {_place} | Movie will start at {_time}\n";
     }
 }

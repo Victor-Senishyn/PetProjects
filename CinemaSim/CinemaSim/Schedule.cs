@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace CinemaSim
 {
-    internal class Schedule
+    public class Schedule
     {
         private readonly DateTime _closing = Convert.ToDateTime("21:00");
+
+        public Dictionary<DateTime, CinemaHall> HallsInSchedule { get; set; }
+
         public Dictionary<DateTime,Movie> FilmsInSchedule { get; set; }
 
-        public Schedule() => FilmsInSchedule = new Dictionary<DateTime, Movie>();
+        public Schedule() => (FilmsInSchedule, HallsInSchedule) = 
+            (new Dictionary<DateTime, Movie>(), new Dictionary<DateTime, CinemaHall>());
 
         public void AddMoviesToSchedule(List<Movie> movies)
         {
@@ -23,23 +27,32 @@ namespace CinemaSim
                 if (movie != null && movie.Duration <= _closing)
                 {
                     FilmsInSchedule.Add(currentTime, movie);
+                    var cinemaHall = new CinemaHall();
+                    HallsInSchedule.Add(currentTime, cinemaHall);
+
                     currentTime = currentTime.Add(movie.Duration.TimeOfDay);
                 }
             }
         }
         public void RemoveMoviesFromSchedule() => FilmsInSchedule.Clear();
-        public Ticket ReserveSeat(DateTime time)
-        {
 
-            foreach (var movie in FilmsInSchedule)
+        public Ticket ReserveSeat(User user, DateTime time, int place)
+        {
+            if (HallsInSchedule[time].IsPlaceFree(place))
             {
-                if (time == movie.Key)
+                foreach (var movie in FilmsInSchedule)
                 {
-                    var ticket = new Ticket(movie.Value, time);
-                    return ticket;
+                    if (time == movie.Key)
+                    {
+                        var ticket = new Ticket(movie.Value, time, place);
+                        user.WithdrawBalance(ticket.Price);
+                        HallsInSchedule[time].Places[place - 1] = false;
+                        return ticket;
+                    }
                 }
+                throw new InvalidTicketReservationException();
             }
-            throw new InvalidTicketReservationException("Incorrect time entered");
+            throw new SeatAlreadyTakenException();
         }
     }
 }

@@ -10,38 +10,7 @@ var movies = new List<Movie>()
     new AnimatedMovie("Sponge Bob", 2004, "1:20", "2D"),
     new Movie("La La Land", 2016, "2:30"),
 };
-
-var cinema = new Cinema(movies.ToArray());
-foreach (var movie in cinema.Movies)
-    Console.WriteLine(movie);
-
-Console.WriteLine("Press any button to continue:");
-Console.ReadKey();
-Console.Clear();
-
-var schedule = new Schedule();
-schedule.AddMoviesToSchedule(cinema.Movies);
-foreach (var movieScreening in schedule.FilmsInSchedule)
-    Console.WriteLine($"{movieScreening.Key} - {movieScreening.Value}");
-
-Console.WriteLine("Enter the time in the format 00:00");
-if(DateTime.TryParse(Console.ReadLine(), out var time))
-{
-    try
-    {
-        var ticket = schedule.ReserveSeat(time);
-        Console.WriteLine(ticket);
-    }
-    catch (InvalidTicketReservationException ex)
-    {
-        Console.WriteLine(ex.Message);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Unexpected error occurred:");
-    }
-}
-else 
-    Console.WriteLine($"Time entered is in the wrong format");
+var cinemaUI = new CinemaUI(movies);
+cinemaUI.Run();
 
 Console.ReadKey();
