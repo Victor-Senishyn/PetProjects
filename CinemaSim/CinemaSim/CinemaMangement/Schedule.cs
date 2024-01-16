@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaSim.Movies;
+using CinemaSim.Users;
+using CinemaSim.CustomExceptions;
 
-namespace CinemaSim
+namespace CinemaSim.CinemaMangement
 {
     public class Schedule
     {
         private readonly DateTime _closing = Convert.ToDateTime("21:00");
 
-        public Dictionary<DateTime, CinemaHall> HallsInSchedule { get; set; }
+        private Dictionary<DateTime, CinemaHall> _hallsInSchedule;
 
-        public Dictionary<DateTime,Movie> FilmsInSchedule { get; set; }
+        public Dictionary<DateTime, Movie> FilmsInSchedule { get; set; }
 
-        public Schedule() => (FilmsInSchedule, HallsInSchedule) = 
+        public Schedule() => (FilmsInSchedule, _hallsInSchedule) =
             (new Dictionary<DateTime, Movie>(), new Dictionary<DateTime, CinemaHall>());
 
         public void AddMoviesToSchedule(List<Movie> movies)
@@ -28,7 +31,7 @@ namespace CinemaSim
                 {
                     FilmsInSchedule.Add(currentTime, movie);
                     var cinemaHall = new CinemaHall();
-                    HallsInSchedule.Add(currentTime, cinemaHall);
+                    _hallsInSchedule.Add(currentTime, cinemaHall);
 
                     currentTime = currentTime.Add(movie.Duration.TimeOfDay);
                 }
@@ -38,7 +41,7 @@ namespace CinemaSim
 
         public Ticket ReserveSeat(User user, DateTime time, int place)
         {
-            if (HallsInSchedule[time].IsPlaceFree(place))
+            if (_hallsInSchedule[time].IsPlaceFree(place))
             {
                 foreach (var movie in FilmsInSchedule)
                 {
@@ -46,7 +49,7 @@ namespace CinemaSim
                     {
                         var ticket = new Ticket(movie.Value, time, place);
                         user.WithdrawBalance(ticket.Price);
-                        HallsInSchedule[time].Places[place - 1] = false;
+                        _hallsInSchedule[time].Places[place - 1] = false;
                         return ticket;
                     }
                 }

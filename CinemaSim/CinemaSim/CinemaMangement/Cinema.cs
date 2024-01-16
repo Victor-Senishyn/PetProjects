@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using CinemaSim.Movies;
 
-namespace CinemaSim
+namespace CinemaSim.CinemaMangement
 {
     public class Cinema
     {

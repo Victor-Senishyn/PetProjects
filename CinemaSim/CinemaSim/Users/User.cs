@@ -6,12 +6,12 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace CinemaSim
+namespace CinemaSim.Users
 {
     [XmlRoot("User")]
     public class User
     {
-        [XmlElement("Ticket")]
+        [XmlIgnore]
         public List<Ticket> Tickets { get; set; }
 
         [XmlElement("Name")]
@@ -20,16 +20,16 @@ namespace CinemaSim
         [XmlElement("Balance")]
         public decimal Balance { get; set; }
 
-        public User(){}
+        public User() { }
         public User(string name, decimal balance) => (Name, Balance, Tickets) = (name, balance, new List<Ticket>());
-        
+
         private bool IsBalanceEnough(decimal money) => Balance >= money;
 
         public void ReplenishBalance(decimal money) => Balance += money;
 
         public void WithdrawBalance(decimal money)
         {
-            if(IsBalanceEnough(money))
+            if (IsBalanceEnough(money))
                 Balance -= money;
             else
                 throw new InsufficientExecutionStackException();
@@ -38,9 +38,11 @@ namespace CinemaSim
         public override string ToString()
         {
             var result = new StringBuilder($"{Name,-12} Balance: {Balance}\nTickets:\n");
-
-            foreach (var ticket in Tickets)
-                result.Append($"{ticket}");
+            if( Tickets != null)
+            {
+                foreach (var ticket in Tickets)
+                    result.Append($"{ticket}");
+            }
 
             return result.ToString();
         }

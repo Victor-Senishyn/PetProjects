@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
-namespace CinemaSim
+namespace CinemaSim.Movies
 {
     public class Movie
     {
         protected ushort releaseDate;
-        public string Name { get; }
-        public DateTime Duration { get; }
+        public string Name { get; set; }
+        public DateTime Duration { get; set; }
 
         public Movie(string name, ushort releaseDate, string duration)
-            => (this.Name, this.releaseDate, this.Duration) 
+            => (Name, this.releaseDate, Duration)
                 = (name, releaseDate, Convert.ToDateTime(duration));
 
         public override string ToString() => $"{Name} - {releaseDate} Time of the film: {Duration.TimeOfDay}";

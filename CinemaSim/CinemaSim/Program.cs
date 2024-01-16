@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using CinemaSim;
+using CinemaSim.Movies;
 
 var movies = new List<Movie>()
 {
