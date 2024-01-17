@@ -8,7 +8,7 @@ namespace CinemaSim.Movies
 {
     public class ForeignMovie : Movie
     {
-        public string Language;
+        public string Language { get; }
 
         public ForeignMovie(string name, ushort releaseDate, string duration, string language)
             : base(name, releaseDate, duration)

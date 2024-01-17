@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 using CinemaSim.Movies;
 using CinemaSim.Users;
 using CinemaSim.CustomExceptions;
+using System.Runtime.InteropServices;
 
 namespace CinemaSim.CinemaMangement
 {
     public class Schedule
     {
-        private readonly DateTime _closing = Convert.ToDateTime("21:00");
-
         private Dictionary<DateTime, CinemaHall> _hallsInSchedule;
 
-        public Dictionary<DateTime, Movie> FilmsInSchedule { get; set; }
+        private Dictionary<Movie, DateTime> _moviesInSchedule;
 
-        public Schedule() => (FilmsInSchedule, _hallsInSchedule) =
-            (new Dictionary<DateTime, Movie>(), new Dictionary<DateTime, CinemaHall>());
+        public IEnumerable<KeyValuePair<Movie, DateTime>> GetMoviesFromSchedule() 
+            => _moviesInSchedule;
+
+        public Schedule() => (_moviesInSchedule, _hallsInSchedule) =
+            (new Dictionary<Movie, DateTime>(), new Dictionary<DateTime, CinemaHall>());
 
         public void AddMoviesToSchedule(List<Movie> movies)
         {
@@ -27,9 +29,9 @@ namespace CinemaSim.CinemaMangement
 
             foreach (var movie in movies)
             {
-                if (movie != null && movie.Duration <= _closing)
+                if (movie != null && movie.Duration <= Constants.Closing)
                 {
-                    FilmsInSchedule.Add(currentTime, movie);
+                    _moviesInSchedule.Add(movie, currentTime);
                     var cinemaHall = new CinemaHall();
                     _hallsInSchedule.Add(currentTime, cinemaHall);
 
@@ -37,25 +39,37 @@ namespace CinemaSim.CinemaMangement
                 }
             }
         }
-        public void RemoveMoviesFromSchedule() => FilmsInSchedule.Clear();
+        public void RemoveMoviesFromSchedule() => _moviesInSchedule.Clear();
 
-        public Ticket ReserveSeat(User user, DateTime time, int place)
+        public Ticket ReserveSeat(User user, string name, int place)
         {
-            if (_hallsInSchedule[time].IsPlaceFree(place))
+            var searchMovie = _moviesInSchedule.FirstOrDefault(m => m.Key.Name == name);
+
+            if (searchMovie.Key != null)
             {
-                foreach (var movie in FilmsInSchedule)
+                if (_hallsInSchedule[searchMovie.Value].IsPlaceFree(place))
                 {
-                    if (time == movie.Key)
+                    foreach (var movie in _moviesInSchedule)
                     {
-                        var ticket = new Ticket(movie.Value, time, place);
-                        user.WithdrawBalance(ticket.Price);
-                        _hallsInSchedule[time].Places[place - 1] = false;
-                        return ticket;
+                        if (name == movie.Key.Name)
+                        {
+                            var ticket = new Ticket(movie.Key, movie.Value.Date, place);
+                            user.WithdrawBalance(ticket.Price);
+                            _hallsInSchedule[movie.Value].Places[place - 1] = false;
+                            return ticket;
+                        }
                     }
+                    throw new InvalidTicketReservationException();
                 }
-                throw new InvalidTicketReservationException();
+                else
+                {
+                    throw new SeatAlreadyTakenException();
+                }
             }
-            throw new SeatAlreadyTakenException();
+            else
+            {
+                throw new ArgumentException("Movie not found", nameof(name));
+            }
         }
     }
 }

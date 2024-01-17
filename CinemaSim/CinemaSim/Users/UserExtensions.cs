@@ -27,9 +27,7 @@ namespace CinemaSim.Users
                 }
             }
             else
-            {
                 existingUsers = new List<User>();
-            }
 
             using (var updatedFileStream = new FileStream(Path, FileMode.Create))
             {
@@ -64,6 +62,7 @@ namespace CinemaSim.Users
             {
                 users.Remove(existingUser);
                 users.Add(updatedUser);
+                users.Remove(existingUser);
 
                 using (StreamWriter streamWriter = new StreamWriter(Path))
                 {
@@ -72,9 +71,7 @@ namespace CinemaSim.Users
                 }
             }
             else
-            {
                 Console.WriteLine($"User with name '{updatedUser.Name}' not found.");
-            }
         }
     }
 }
