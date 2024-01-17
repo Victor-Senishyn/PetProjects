@@ -7,7 +7,7 @@ using CinemaSim.Users;
 
 namespace CinemaSim.Authorization
 {
-    public interface IAuthorization
+    public interface IAuthorizationCommand
     {
         public User Execute(string name);
     }

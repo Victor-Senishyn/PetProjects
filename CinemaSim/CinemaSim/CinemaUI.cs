@@ -16,6 +16,7 @@ using System.Xml.Linq;
 
 namespace CinemaSim
 {
+
     public class CinemaUI
     {
         private Cinema _cinema;
@@ -77,7 +78,7 @@ namespace CinemaSim
             {
                 if (int.TryParse(Console.ReadLine(), out var choice))
                 {
-                    var commandHandler = AuthorizationFactory.BuildAuthorization(choice);
+                    var commandHandler = AuthorizationCommandFactory.BuildAuthorization(choice);
                     if (commandHandler == null)
                         return;
 

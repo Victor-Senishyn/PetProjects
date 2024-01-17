@@ -7,7 +7,7 @@ using CinemaSim.Users;
 
 namespace CinemaSim.Authorization
 {
-    public class SignInCommand : IAuthorization
+    public class SignInCommand : IAuthorizationCommand
     {
         public User Execute(string name) 
             => UserExtensions.GetUserFromXml(name) == null 

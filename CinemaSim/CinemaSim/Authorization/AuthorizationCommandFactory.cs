@@ -7,9 +7,9 @@ using CinemaSim.Users;
 
 namespace CinemaSim.Authorization
 {
-    public static class AuthorizationFactory
+    public static class AuthorizationCommandFactory
     {
-        public static IAuthorization BuildAuthorization(int command)
+        public static IAuthorizationCommand BuildAuthorization(int command)
             => command switch
             {
                 1 => new SignUpCommand(),

@@ -8,7 +8,7 @@ using CinemaSim.Users;
 
 namespace CinemaSim.Authorization
 {
-    public class SignUpCommand : IAuthorization
+    public class SignUpCommand : IAuthorizationCommand
     {
         public User Execute(string name)
         {
