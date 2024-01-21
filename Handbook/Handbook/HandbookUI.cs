@@ -21,12 +21,12 @@ namespace Handbook
                 Console.WriteLine("2. Get user from file by ID");
                 Console.WriteLine("3. Serialization of the user to file");
                 Console.WriteLine("4. Exit");
-
+                
                 switch (Console.ReadLine())
                 {
                     case ("1"):
                         Console.WriteLine("Enter start index");
-                        if(long.TryParse(Console.ReadLine(),out var startIndex)) 
+                        if (long.TryParse(Console.ReadLine(), out var startIndex))
                         {
                             Console.WriteLine("Enter the number of items you want to see");
                             if (long.TryParse(Console.ReadLine(), out var count))
@@ -34,7 +34,7 @@ namespace Handbook
                                 foreach (var item in Deserializer.ReadDataFromXml(startIndex, count))
                                     Console.WriteLine(item);
                             }
-                            else 
+                            else
                                 Console.WriteLine("Wrong type for count");
                         }
                         else
@@ -47,12 +47,12 @@ namespace Handbook
                         {
                             Console.WriteLine(Deserializer.GetUserFromXmlById(Console.ReadLine()));
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                         }
                         break;
-                    
+
                     case ("3"):
                         Console.WriteLine("Enter name");
                         string name = Console.ReadLine()!;
@@ -68,7 +68,7 @@ namespace Handbook
                     case ("4"):
                         return;
 
-                    default: 
+                    default:
                         Console.WriteLine("Wrong input");
                         break;
                 }

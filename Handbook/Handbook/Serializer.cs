@@ -18,19 +18,18 @@ namespace Handbook
         public static void SerializeUserToXml(User user)
         {
             List<User> users = new List<User>();
-            IdGenerator.IsDeserialized = true;
             XmlSerializer serializer = new XmlSerializer(typeof(List<User>), new XmlRootAttribute("ArrayOfUsers"));
 
             using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.Open))
             {
                 users = (List<User>)serializer.Deserialize(fileStream);
+                user.Id = (users.Count + 2);
                 users.Add(user);
             }
             using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.Create))
             {
                 serializer.Serialize(fileStream, users);
             }
-            IdGenerator.IsDeserialized = false;
         }
     }
 
