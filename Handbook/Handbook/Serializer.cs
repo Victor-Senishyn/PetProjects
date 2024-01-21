@@ -18,26 +18,19 @@ namespace Handbook
         public static void SerializeUserToXml(User user)
         {
             List<User> users = new List<User>();
-            User.IsDeserialized = true;
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<User>), new XmlRootAttribute("ArrayOfUsers"));
+            IdGenerator.IsDeserialized = true;
+            XmlSerializer serializer = new XmlSerializer(typeof(List<User>), new XmlRootAttribute("ArrayOfUsers"));
 
-                using (FileStream fileStream = new FileStream(Constants.PathToUsersXml, FileMode.Open))
-                {
-                    users = (List<User>)serializer.Deserialize(fileStream);
-                    users.Add(user);
-                }
-                using (FileStream fileStream = new FileStream(Constants.PathToUsersXml, FileMode.Create))
-                {
-                    serializer.Serialize(fileStream, users);
-                }
-            }
-            catch (Exception ex)
+            using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.Open))
             {
-                Console.WriteLine($"Error during deserialization: {ex.StackTrace}");
+                users = (List<User>)serializer.Deserialize(fileStream);
+                users.Add(user);
             }
-            User.IsDeserialized = false;
+            using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.Create))
+            {
+                serializer.Serialize(fileStream, users);
+            }
+            IdGenerator.IsDeserialized = false;
         }
     }
 

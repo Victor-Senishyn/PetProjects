@@ -30,7 +30,10 @@ namespace Handbook
                         {
                             Console.WriteLine("Enter the number of items you want to see");
                             if (long.TryParse(Console.ReadLine(), out var count))
-                                Deserializer.ReadDataFromXml(startIndex, count);
+                            {
+                                foreach (var item in Deserializer.ReadDataFromXml(startIndex, count))
+                                    Console.WriteLine(item);
+                            }
                             else 
                                 Console.WriteLine("Wrong type for count");
                         }

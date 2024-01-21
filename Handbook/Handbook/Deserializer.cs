@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -12,9 +14,26 @@ namespace Handbook
 {
     public static class Deserializer
     {
-        public static void ReadDataFromXml(long startIndex, long count)
+        private static User CreateUserFromFile(XmlReader reader, long id)
         {
-            using (XmlReader reader = XmlReader.Create(Constants.PathToUsersXml))
+            string name, email, number;
+            reader.ReadToFollowing("Name");
+            reader.Read();
+            name = reader.Value;
+            reader.ReadToFollowing("Email");
+            reader.Read();
+            email = reader.Value;
+            reader.ReadToFollowing("PhoneNumber");
+            reader.Read();
+            number = reader.Value;
+
+            return new User(id, name, email, number);
+        }
+
+        public static IEnumerable<User> ReadDataFromXml(long startIndex, long count)
+        {
+            var users = new List<User>();
+            using (XmlReader reader = XmlReader.Create(Constants.LastAssignedIdFilePath))
             {
                 reader.ReadToFollowing("Id");
 
@@ -22,48 +41,25 @@ namespace Handbook
                 {
                     if (reader.Value == startIndex.ToString())
                     {
-                        Console.WriteLine($"Id: {startIndex}");
-                        reader.ReadToFollowing("Name");
-                        reader.Read();
-                        Console.Write($"Name: {reader.Value}");
-                        reader.ReadToFollowing("Email");
-                        reader.Read();
-                        Console.Write($"Email: {reader.Value}");
-                        reader.ReadToFollowing("PhoneNumber");
-                        reader.Read();
-                        Console.WriteLine($"Phone number: {reader.Value}");
-                        reader.ReadToFollowing("Id");
+                        users.Add(CreateUserFromFile(reader, startIndex));
                         if (--count == 0)
-                            return;
+                            break;
                         startIndex++;
                     }
                 }
             }
+            return users;
         }
         public static User GetUserFromXmlById(string id)
         {
-            using (XmlReader reader = XmlReader.Create(Constants.PathToUsersXml))
+            using (XmlReader reader = XmlReader.Create(Constants.LastAssignedIdFilePath))
             {
                 reader.ReadToFollowing("Id");
 
                 while (reader.Read())
                 {
                     if (reader.Value == id)
-                    {
-                        string name, email, number;
-
-                        reader.ReadToFollowing("Name");
-                        reader.Read();
-                        name = reader.Value;
-                        reader.ReadToFollowing("Email");
-                        reader.Read();
-                        email = reader.Value;
-                        reader.ReadToFollowing("PhoneNumber");
-                        reader.Read();
-                        number = reader.Value;
-
-                        return new User(long.Parse(id), name, email, number);
-                    }
+                        return CreateUserFromFile(reader,long.Parse(id));
                 }
             }
             throw new ArgumentException("Wrong Id");

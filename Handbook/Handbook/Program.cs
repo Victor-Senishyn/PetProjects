@@ -4,10 +4,10 @@ public class Program
 {
     static void Main(string[] args)
     {
-        User.LoadLastAssignedIndex();
+        IdGenerator.LoadLastAssignedIndex();
 
         HandbookUI.Start();        
 
-        User.SaveLastAssignedId();
+        IdGenerator.SaveLastAssignedId();
     }
 }
