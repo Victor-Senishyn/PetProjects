@@ -23,7 +23,7 @@ namespace Handbook
             using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.Open))
             {
                 users = (List<User>)serializer.Deserialize(fileStream);
-                user.Id = (users.Count + 2);
+                user.Id = (users.Count + 1);
                 users.Add(user);
             }
             using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.Create))
