@@ -33,7 +33,7 @@ namespace Handbook
         public static IEnumerable<User> ReadDataFromXml(long startIndex, long count)
         {
             var users = new List<User>();
-            using (XmlReader reader = XmlReader.Create(Constants.LastAssignedIdFilePath))
+            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
                 reader.ReadToFollowing("Id");
 
@@ -50,16 +50,17 @@ namespace Handbook
             }
             return users;
         }
-        public static User GetUserFromXmlById(string id)
+
+        public static User GetUserFromXmlById(long id)
         {
-            using (XmlReader reader = XmlReader.Create(Constants.LastAssignedIdFilePath))
+            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
                 reader.ReadToFollowing("Id");
 
                 while (reader.Read())
                 {
-                    if (reader.Value == id)
-                        return CreateUserFromFile(reader,long.Parse(id));
+                    if (reader.Value == id.ToString())
+                        return CreateUserFromFile(reader,id);
                 }
             }
             throw new ArgumentException("Wrong Id");

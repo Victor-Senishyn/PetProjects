@@ -45,7 +45,10 @@ namespace Handbook
                         Console.WriteLine("Enter user ID");
                         try
                         {
-                            Console.WriteLine(Deserializer.GetUserFromXmlById(Console.ReadLine()));
+                            if (long.TryParse(Console.ReadLine(), out var id))
+                                Console.WriteLine(Deserializer.GetUserFromXmlById(id));
+                            else
+                                Console.WriteLine("Wrong input");
                         }
                         catch (Exception ex)
                         {

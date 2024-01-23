@@ -9,6 +9,6 @@ namespace Handbook
 {
     public static class Constants
     {
-        public readonly static string LastAssignedIdFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Users.xml");
+        public readonly static string UsersXmlPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Users.xml");
     }
 }
