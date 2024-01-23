@@ -19,8 +19,10 @@ namespace Handbook
                 Console.WriteLine("Enter number of your choice:");
                 Console.WriteLine("1. Show a selection of items");
                 Console.WriteLine("2. Get user from file by ID");
-                Console.WriteLine("3. Serialization of the user to file");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("3. Get users by phone number code");
+                Console.WriteLine("4. Get number of users from country");
+                Console.WriteLine("5. Serialization of the user to file");
+                Console.WriteLine("6. Exit");
                 
                 switch (Console.ReadLine())
                 {
@@ -46,7 +48,7 @@ namespace Handbook
                         try
                         {
                             if (long.TryParse(Console.ReadLine(), out var id))
-                                Console.WriteLine(Deserializer.GetUserFromXmlById(id));
+                                Console.WriteLine(Searcher.GetUserFromXmlById(id));
                             else
                                 Console.WriteLine("Wrong input");
                         }
@@ -55,20 +57,33 @@ namespace Handbook
                             Console.WriteLine(ex.Message);
                         }
                         break;
-
+                       
                     case ("3"):
+                        Console.WriteLine("Enter the phone number code");
+                        foreach (var item in Searcher.GetUsersByNumberCode(Console.ReadLine()!))
+                            Console.WriteLine(item);
+                        break;
+
+                    case ("4"):
+                        Console.WriteLine("Enter country");
+                        Console.WriteLine(Searcher.GetCountOfUsersFromCountry(Console.ReadLine()!));
+                        break;
+
+                    case ("5"):
                         Console.WriteLine("Enter name");
                         string name = Console.ReadLine()!;
                         Console.WriteLine("Enter email");
                         string email = Console.ReadLine()!;
                         Console.WriteLine("Enter phone number");
                         string phoneNumber = Console.ReadLine()!;
-                        var user = new User(name, email, phoneNumber);
+                        Console.WriteLine("Enter phone country");
+                        string country = Console.ReadLine()!;
+                        var user = new User(name, email, phoneNumber, country);
                         Serializer.SerializeUserToXml(user);
                         Console.WriteLine($"User serialized his Id: {user.Id}");
                         break;
 
-                    case ("4"):
+                    case ("6"):
                         return;
 
                     default:

@@ -16,7 +16,7 @@ namespace Handbook
     {
         private static User CreateUserFromFile(XmlReader reader, long id)
         {
-            string name, email, number;
+            string name, email, number, country;
             reader.ReadToFollowing("Name");
             reader.Read();
             name = reader.Value;
@@ -26,8 +26,11 @@ namespace Handbook
             reader.ReadToFollowing("PhoneNumber");
             reader.Read();
             number = reader.Value;
+            reader.ReadToFollowing("Country");
+            reader.Read();
+            country = reader.Value;
 
-            return new User(id, name, email, number);
+            return new User(id, name, email, number, country);
         }
 
         public static IEnumerable<User> ReadDataFromXml(long startIndex, long count)
@@ -49,21 +52,6 @@ namespace Handbook
                 }
             }
             return users;
-        }
-
-        public static User GetUserFromXmlById(long id)
-        {
-            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
-            {
-                reader.ReadToFollowing("Id");
-
-                while (reader.Read())
-                {
-                    if (reader.Value == id.ToString())
-                        return CreateUserFromFile(reader,id);
-                }
-            }
-            throw new ArgumentException("Wrong Id");
         }
     }
 }
