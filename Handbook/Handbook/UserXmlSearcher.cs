@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace Handbook
 {
-    public class Searcher
+    public class UserXmlSearcher
     {
         private static IEnumerable<IGrouping<int, User>> GetGroupedUsers()
         {

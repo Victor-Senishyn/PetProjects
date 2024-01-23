@@ -48,7 +48,7 @@ namespace Handbook
                         try
                         {
                             if (long.TryParse(Console.ReadLine(), out var id))
-                                Console.WriteLine(Searcher.GetUserFromXmlById(id));
+                                Console.WriteLine(UserXmlSearcher.GetUserFromXmlById(id));
                             else
                                 Console.WriteLine("Wrong input");
                         }
@@ -60,13 +60,13 @@ namespace Handbook
                        
                     case ("3"):
                         Console.WriteLine("Enter the phone number code");
-                        foreach (var item in Searcher.GetUsersByNumberCode(Console.ReadLine()!))
+                        foreach (var item in UserXmlSearcher.GetUsersByNumberCode(Console.ReadLine()!))
                             Console.WriteLine(item);
                         break;
 
                     case ("4"):
                         Console.WriteLine("Enter country");
-                        Console.WriteLine(Searcher.GetCountOfUsersFromCountry(Console.ReadLine()!));
+                        Console.WriteLine(UserXmlSearcher.GetCountOfUsersFromCountry(Console.ReadLine()!));
                         break;
 
                     case ("5"):
@@ -76,7 +76,7 @@ namespace Handbook
                         string email = Console.ReadLine()!;
                         Console.WriteLine("Enter phone number");
                         string phoneNumber = Console.ReadLine()!;
-                        Console.WriteLine("Enter phone country");
+                        Console.WriteLine("Enter country");
                         string country = Console.ReadLine()!;
                         var user = new User(name, email, phoneNumber, country);
                         Serializer.SerializeUserToXml(user);
