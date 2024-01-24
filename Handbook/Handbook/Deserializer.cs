@@ -14,7 +14,7 @@ namespace Handbook
 {
     public static class Deserializer
     {
-        private static User CreateUserFromFile(XmlReader reader, long id)
+        public static User CreateUserFromFile(XmlReader reader, long id)
         {
             string name, email, number, country;
             reader.ReadToFollowing("Name");

@@ -14,70 +14,87 @@ namespace Handbook
 {
     public class UserXmlSearcher
     {
-        private static IEnumerable<IGrouping<int, User>> GetGroupedUsers()
+        private static IEnumerable<User> CreateBatch(long startIndex, XmlReader reader)
         {
-            XDocument xmlDoc = XDocument.Load(Constants.UsersXmlPath);
-            var users = xmlDoc.Descendants("User");
+            List<User> users = new List<User> { };
+            
+            reader.ReadToFollowing("User");
 
-            return users.Select((user, index)
-                => new User(
-                    long.Parse(user.Element("Id")!.Value), 
-                    user.Element("Name")!.Value, 
-                    user.Element("Email")!.Value, 
-                    user.Element("PhoneNumber")!.Value,
-                    user.Element("Country")!.Value))
-                .Select((user, index) => new { User = user, GroupIndex = index / 100 })
-                .GroupBy(x => x.GroupIndex, y => y.User);
+            while (users.Count != 100 && !reader.EOF)
+            {
+                reader.Read();
+                if (reader.Value == startIndex.ToString())
+                    users.Add(Deserializer.CreateUserFromFile(reader, startIndex++));
+            }
+                
+            return users;
         }
 
         public static User GetUserFromXmlById(long id)
         {
-            var groupedUsers = GetGroupedUsers();
+            long startIndex = 0;
+            User user = null;
 
-            foreach (var group in groupedUsers)
+            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
-                var userArray = group.ToArray();
-                var user = userArray.FirstOrDefault(user => user.Id == id);
+                while (true)
+                {
+                    var users = CreateBatch(startIndex, reader).ToArray();
 
-                if(user != null)
-                    return user;
+                    if (users.Length == 0)
+                        break;
 
-                Array.Clear(userArray, 0, userArray.Length);
+                    user = users.FirstOrDefault(u => u.Id == id);
+                    startIndex += 100;
+
+                    if (user != null)
+                        return user;
+                }
             }
-
             throw new ArgumentException("No user found by id");
         }
 
         public static IEnumerable<User> GetUsersByNumberCode(string numberCode)
         {
+            long startIndex = 0;
+            List<User> usersResult = new List<User> { };
             Regex reg = new Regex($@"^(?:\+{Regex.Escape(numberCode)}|{Regex.Escape(numberCode)})\d+$");
-            var groupedUsers = GetGroupedUsers();
-            List<User> users = new List<User>();
 
-            foreach (var group in groupedUsers)
+            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
-                var userArray = group.ToArray();
-                users.AddRange(userArray.Where(user => reg.IsMatch(user.PhoneNumber)));
-            }
+                while (true)
+                {
+                    var users = CreateBatch(startIndex, reader).ToArray();
 
-            return users;
+                    if (users.Length == 0)
+                        break;
+
+                    usersResult.AddRange(users.Where(user => reg.IsMatch(user.PhoneNumber)));
+                    startIndex += 100;
+                }
+            }
+            return usersResult;
         }
 
         public static long GetCountOfUsersFromCountry(string country)
         {
-            var groupedUsers = GetGroupedUsers();
+            long startIndex = 0;
             long count = 0;
+            List<User> usersResult = new List<User> { };
 
-            foreach (var group in groupedUsers)
+            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
-                var userArray = group.ToArray();
-                var users = userArray.Where(user => user.Country == country);
+                while (true)
+                {
+                    var users = CreateBatch(startIndex, reader).ToArray();
 
-                count += users.Count();
+                    if (users.Length == 0)
+                        break;
 
-                Array.Clear(userArray, 0, userArray.Length);
+                    count += (users.Where(user => user.Country == country)).Count();
+                    startIndex += 100;
+                }
             }
-
             return count;
         }
     }
