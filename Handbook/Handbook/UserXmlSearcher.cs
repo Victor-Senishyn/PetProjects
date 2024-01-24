@@ -33,7 +33,7 @@ namespace Handbook
         public static User GetUserFromXmlById(long id)
         {
             long startIndex = 0;
-            User user = null;
+            User userResult = null;
 
             using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
@@ -44,11 +44,11 @@ namespace Handbook
                     if (users.Length == 0)
                         break;
 
-                    user = users.FirstOrDefault(u => u.Id == id);
+                    userResult = users.FirstOrDefault(user => user.Id == id);
                     startIndex += 100;
 
-                    if (user != null)
-                        return user;
+                    if (userResult != null)
+                        return userResult;
                 }
             }
             throw new ArgumentException("No user found by id");
@@ -80,7 +80,6 @@ namespace Handbook
         {
             long startIndex = 0;
             long count = 0;
-            List<User> usersResult = new List<User> { };
 
             using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
