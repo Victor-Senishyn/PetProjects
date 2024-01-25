@@ -14,9 +14,9 @@ namespace Handbook
 {
     public static class Deserializer
     {
-        private static User CreateUserFromFile(XmlReader reader, long id)
+        public static User CreateUserFromFile(XmlReader reader, long id)
         {
-            string name, email, number;
+            string name, email, number, country;
             reader.ReadToFollowing("Name");
             reader.Read();
             name = reader.Value;
@@ -26,14 +26,17 @@ namespace Handbook
             reader.ReadToFollowing("PhoneNumber");
             reader.Read();
             number = reader.Value;
+            reader.ReadToFollowing("Country");
+            reader.Read();
+            country = reader.Value;
 
-            return new User(id, name, email, number);
+            return new User(id, name, email, number, country);
         }
 
         public static IEnumerable<User> ReadDataFromXml(long startIndex, long count)
         {
             var users = new List<User>();
-            using (XmlReader reader = XmlReader.Create(Constants.LastAssignedIdFilePath))
+            using (XmlReader reader = XmlReader.Create(Constants.UsersXmlPath))
             {
                 reader.ReadToFollowing("Id");
 
@@ -49,20 +52,6 @@ namespace Handbook
                 }
             }
             return users;
-        }
-        public static User GetUserFromXmlById(string id)
-        {
-            using (XmlReader reader = XmlReader.Create(Constants.LastAssignedIdFilePath))
-            {
-                reader.ReadToFollowing("Id");
-
-                while (reader.Read())
-                {
-                    if (reader.Value == id)
-                        return CreateUserFromFile(reader,long.Parse(id));
-                }
-            }
-            throw new ArgumentException("Wrong Id");
         }
     }
 }

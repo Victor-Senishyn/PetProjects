@@ -18,14 +18,16 @@ namespace Handbook
         public string Email { get; set; }
         [XmlElement("PhoneNumber")]
         public string PhoneNumber { get; set; }
+        [XmlElement("Country")]
+        public string Country {  get; set; }
         public User(){}
 
-        public User(string name, string email, string phoneNumber)
-            => (Name, Email, PhoneNumber) = (name, email, phoneNumber);
+        public User(string name, string email, string phoneNumber, string country)
+            => (Name, Email, PhoneNumber, Country) = (name, email, phoneNumber, country);
 
-        public User(long id, string name, string email, string phoneNumber): this(name, email, phoneNumber)
+        public User(long id, string name, string email, string phoneNumber, string country) : this(name, email, phoneNumber, country)
             => (Id) = (id);
 
-        public override string ToString() => $"ID: {Id}\tName: {Name}\tEmail: {Email}\tPhone Number: {PhoneNumber}";
+        public override string ToString() => $"ID: {Id}\tName: {Name}\tEmail: {Email}\tPhone Number: {PhoneNumber}\tCountry: {Country}";
     }
 }

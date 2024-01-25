@@ -20,7 +20,7 @@ namespace Handbook
             List<User> users = new List<User>();
             XmlSerializer serializer = new XmlSerializer(typeof(List<User>), new XmlRootAttribute("ArrayOfUsers"));
 
-            using (FileStream fileStream = new FileStream(Constants.LastAssignedIdFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (FileStream fileStream = new FileStream(Constants.UsersXmlPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 users = (List<User>)serializer.Deserialize(fileStream);
                 user.Id = (users.Count + 1);
