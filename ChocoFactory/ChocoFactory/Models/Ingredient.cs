@@ -1,4 +1,4 @@
-namespace ChocoFactory;
+namespace ChocoFactory.Models;
 
 public class Ingredient
 {

@@ -1,5 +1,7 @@
 ﻿using System.Threading.Channels;
 using ChocoFactory;
+using ChocoFactory.CustomException;
+using ChocoFactory.Models;
 
 public static class Program
 {
@@ -25,7 +27,7 @@ public static class Program
                     var product = await factory.CreateProductAsync("ChocolateBar", "Chocolate", random.Next(9)+1);
                     Console.WriteLine(product);
                 }
-                catch (ArgumentException ex)
+                catch (InsufficientIngredientsException ex)
                 {
                     Console.WriteLine($"Error creating product: {ex.Message}");
                 }
