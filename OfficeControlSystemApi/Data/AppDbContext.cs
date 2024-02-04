@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OfficeControlSystemApi.Models;
+using System.Reflection.Metadata;
 
 namespace OfficeControlSystemApi.Data
 {
@@ -20,5 +22,4 @@ namespace OfficeControlSystemApi.Data
         public DbSet<AccessCard> AccessCards { get; set; }
         public DbSet<VisitHistory> VisitHistories { get; set; }
     }
-
 }

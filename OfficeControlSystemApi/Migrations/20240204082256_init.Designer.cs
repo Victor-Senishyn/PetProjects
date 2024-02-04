@@ -12,8 +12,8 @@ using OfficeControlSystemApi.Data;
 namespace OfficeControlSystemApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240202132153_NewMigration2")]
-    partial class NewMigration2
+    [Migration("20240204082256_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,40 +25,32 @@ namespace OfficeControlSystemApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("OfficeControlSystemApi.Data.AccessCard", b =>
+            modelBuilder.Entity("OfficeControlSystemApi.Models.AccessCard", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AccessLevel")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset?>("ExpiryDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset>("IssuedDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.ToTable("AccessCards");
                 });
 
-            modelBuilder.Entity("OfficeControlSystemApi.Data.Employee", b =>
+            modelBuilder.Entity("OfficeControlSystemApi.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("integer");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -73,16 +65,16 @@ namespace OfficeControlSystemApi.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("OfficeControlSystemApi.Data.VisitHistory", b =>
+            modelBuilder.Entity("OfficeControlSystemApi.Models.VisitHistory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("integer");
+                    b.Property<long>("AccessCardId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("ExitDateTime")
                         .HasColumnType("timestamp with time zone");
@@ -93,18 +85,6 @@ namespace OfficeControlSystemApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VisitHistories");
-                });
-
-            modelBuilder.Entity("OfficeControlSystemApi.Data.AccessCard", b =>
-                {
-                    b.HasOne("OfficeControlSystemApi.Data.Employee", null)
-                        .WithMany("AccessCards")
-                        .HasForeignKey("EmployeeId");
-                });
-
-            modelBuilder.Entity("OfficeControlSystemApi.Data.Employee", b =>
-                {
-                    b.Navigation("AccessCards");
                 });
 #pragma warning restore 612, 618
         }

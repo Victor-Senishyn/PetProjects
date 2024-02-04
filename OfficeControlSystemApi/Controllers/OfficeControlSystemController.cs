@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeControlSystemApi.Data;
+using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Services;
+using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Controllers
 {
@@ -8,83 +11,57 @@ namespace OfficeControlSystemApi.Controllers
     [ApiController]
     public class OfficeControlSystemController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IEmployeeService _employeeService;
+        private readonly IAccessCardService _accessCardService;
+        private readonly IVisitHistoryService _visitHistoryService;
 
-        public OfficeControlSystemController(AppDbContext dbContext)
+        public OfficeControlSystemController(AppDbContext context)
         {
-            _dbContext = dbContext;
+            _employeeService = new EmployeeService(context);
+            _accessCardService = new AccessCardService(context);
+            _visitHistoryService = new VisitHistoryService(context);
         }
 
-        [HttpPost("addEmployee")]
-        public IActionResult AddEmployee([FromBody] Employee employeeInput)
+        [HttpPost("employee")]
+        public IActionResult AddEmployee([FromBody] Employee employeeInput, int accessLevel)
         {
-            if (employeeInput == null)
-                return BadRequest("Invalid input data");
-
-            var newEmployee = new Employee
+            try
             {
-                FirstName = employeeInput.FirstName,
-                LastName = employeeInput.LastName,
-                AccessLevel = (AccessLevel)employeeInput.AccessLevel
-            };
-
-            var newAccessCard = new AccessCard
+                var newEmployee = _employeeService.AddEmployee(employeeInput, accessLevel);
+                return Ok(newEmployee);
+            }
+            catch (ArgumentException ex)
             {
-                IssuedDate = DateTimeOffset.UtcNow,
-            };
-
-            newEmployee.AccessCards.Add(newAccessCard);
-
-            _dbContext.Employees.Add(newEmployee);
-            _dbContext.AccessCards.Add(newAccessCard);
-            _dbContext.SaveChanges();
-
-            var newVisitHistory = new VisitHistory
-            {
-                EmployeeId = newEmployee.Id,
-                VisitDateTime = DateTimeOffset.UtcNow
-            };
-
-            _dbContext.VisitHistories.Add(newVisitHistory);
-            _dbContext.SaveChanges();
-
-            return Ok(newEmployee);
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPut("updateExitTime/{accessHistoryId}")]
-        public IActionResult UpdateExitDateTime(int visitHistoryId)
+        [HttpPut("exit/{visitHistoryId}")]
+        public IActionResult UpdateExitDateTime(long visitHistoryId)
         {
-            var visitHistory = _dbContext.VisitHistories.FirstOrDefault(ah => ah.Id == visitHistoryId);
-
-            if (visitHistory == null)
-                return NotFound($"AccessHistory with id {visitHistoryId} not found");
-
-            visitHistory.ExitDateTime = DateTimeOffset.UtcNow;
-
-            _dbContext.SaveChanges();
-
-            return Ok(visitHistory);
+            try
+            {
+                var newVisitHistory = _visitHistoryService.UpdateExitDateTime(visitHistoryId);
+                return Ok(newVisitHistory);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        [HttpPost("addVisitHistory/{employeeId}")]
-        public IActionResult AddAccessHistory(int employeeId)
+        [HttpPost("visit/{employeeId}")]
+        public IActionResult AddAccessHistory(long employeeId)
         {
-            var employee = _dbContext.Employees.FirstOrDefault(e => e.Id == employeeId);
-
-            if (employee == null)
-                return NotFound($"Employee with id {employeeId} not found");
-
-
-            var newVisitHistory = new VisitHistory
+            try
             {
-                EmployeeId = employee.Id,
-                VisitDateTime = DateTimeOffset.UtcNow
-            };
-
-            _dbContext.VisitHistories.Add(newVisitHistory);
-            _dbContext.SaveChanges();
-
-            return Ok(newVisitHistory);
+                var newVisitHistory = _visitHistoryService.AddVisitHistory(employeeId);
+                return Ok(newVisitHistory);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace OfficeControlSystemApi.Data
+﻿namespace OfficeControlSystemApi.Models
 {
     public enum AccessLevel
     {
