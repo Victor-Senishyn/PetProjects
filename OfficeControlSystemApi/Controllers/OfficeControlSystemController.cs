@@ -23,11 +23,11 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("employee")]
-        public IActionResult AddEmployee([FromBody] Employee employeeInput, int accessLevel)
+        public IActionResult AddEmployee([FromBody] Employee employeeInput)
         {
             try
             {
-                var newEmployee = _employeeService.AddEmployee(employeeInput, accessLevel);
+                var newEmployee = _employeeService.AddEmployee(employeeInput);
                 return Ok(newEmployee);
             }
             catch (ArgumentException ex)

@@ -38,6 +38,8 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("AccessCards");
                 });
 
@@ -81,7 +83,36 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccessCardId");
+
                     b.ToTable("VisitHistories");
+                });
+
+            modelBuilder.Entity("OfficeControlSystemApi.Models.AccessCard", b =>
+                {
+                    b.HasOne("OfficeControlSystemApi.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("OfficeControlSystemApi.Models.VisitHistory", b =>
+                {
+                    b.HasOne("OfficeControlSystemApi.Models.AccessCard", "AccessCard")
+                        .WithMany("VisitHistories")
+                        .HasForeignKey("AccessCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccessCard");
+                });
+
+            modelBuilder.Entity("OfficeControlSystemApi.Models.AccessCard", b =>
+                {
+                    b.Navigation("VisitHistories");
                 });
 #pragma warning restore 612, 618
         }

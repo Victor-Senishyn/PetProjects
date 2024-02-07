@@ -18,6 +18,14 @@ namespace OfficeControlSystemApi.Data
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AccessCard>()
+                .HasMany(ac => ac.VisitHistories)
+                .WithOne(vh => vh.AccessCard)
+                .HasForeignKey(vh => vh.AccessCardId);
+        }
+
         public DbSet<Employee> Employees { get; set; }
         public DbSet<AccessCard> AccessCards { get; set; }
         public DbSet<VisitHistory> VisitHistories { get; set; }

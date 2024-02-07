@@ -12,7 +12,7 @@ using OfficeControlSystemApi.Data;
 namespace OfficeControlSystemApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240204082256_init")]
+    [Migration("20240207213341_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -40,6 +40,8 @@ namespace OfficeControlSystemApi.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("AccessCards");
                 });
@@ -84,7 +86,36 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccessCardId");
+
                     b.ToTable("VisitHistories");
+                });
+
+            modelBuilder.Entity("OfficeControlSystemApi.Models.AccessCard", b =>
+                {
+                    b.HasOne("OfficeControlSystemApi.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("OfficeControlSystemApi.Models.VisitHistory", b =>
+                {
+                    b.HasOne("OfficeControlSystemApi.Models.AccessCard", "AccessCard")
+                        .WithMany("VisitHistories")
+                        .HasForeignKey("AccessCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccessCard");
+                });
+
+            modelBuilder.Entity("OfficeControlSystemApi.Models.AccessCard", b =>
+                {
+                    b.Navigation("VisitHistories");
                 });
 #pragma warning restore 612, 618
         }

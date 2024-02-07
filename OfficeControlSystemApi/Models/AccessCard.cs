@@ -12,5 +12,7 @@ namespace OfficeControlSystemApi.Models
         [ForeignKey("EmployeeId")]
         public long EmployeeId { get; set; }
         public AccessLevel AccessLevel { get; set; }
+        public Employee Employee { get; set; }
+        public ICollection<VisitHistory> VisitHistories { get; set; }
     }
 }

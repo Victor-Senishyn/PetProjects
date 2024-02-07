@@ -13,5 +13,7 @@ namespace OfficeControlSystemApi.Models
         public long AccessCardId { get; set; }
         public DateTimeOffset VisitDateTime { get; set; }
         public DateTimeOffset ExitDateTime { get; set; }
+
+        public AccessCard AccessCard { get; set; }
     }
 }

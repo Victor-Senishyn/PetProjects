@@ -14,21 +14,16 @@ namespace OfficeControlSystemApi.Services
             _dbContext = context;
             _employeeRepository = new Repository(context);
         }
-        public Employee AddEmployee(Employee employeeInput, int accessLevel)
+        public Employee AddEmployee(Employee employee)
         {
-            if (employeeInput == null)
+            if (employee == null)
                 throw new ArgumentException("Invalid input data");
-
-            var newEmployee = new Employee
-            {
-                FirstName = employeeInput.FirstName,
-                LastName = employeeInput.LastName,
-            };
 
             var newAccessCard = new AccessCard
             {
-                EmployeeId = newEmployee.Id,
-                AccessLevel = (AccessLevel)accessLevel
+                AccessLevel = AccessLevel.Low,
+                VisitHistories = new List<VisitHistory>(),
+                Employee = employee
             };
 
             var newVisitHistory = new VisitHistory
@@ -36,16 +31,15 @@ namespace OfficeControlSystemApi.Services
                 VisitDateTime = DateTimeOffset.UtcNow
             };
 
-            _dbContext.Employees.Add(newEmployee);
+            newAccessCard.VisitHistories.Add(newVisitHistory);
+
+            _dbContext.Employees.Add(employee);
             _dbContext.AccessCards.Add(newAccessCard);
-
-            _dbContext.SaveChanges();
-
-            newVisitHistory.AccessCardId = newAccessCard.Id;
             _dbContext.VisitHistories.Add(newVisitHistory);
             _dbContext.SaveChanges();
 
-            return newEmployee;
+            return employee;
         }
+
     }
 }
