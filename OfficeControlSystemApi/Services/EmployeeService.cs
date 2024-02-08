@@ -5,21 +5,21 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService //: IEmployeeService
     {
         private readonly AppDbContext _dbContext;
-        private readonly Repository _employeeRepository;
+        private readonly EmployeeRepository _employeeRepository;
         public EmployeeService(AppDbContext context)
         {
             _dbContext = context;
-            _employeeRepository = new Repository(context);
+            _employeeRepository = new EmployeeRepository(context);
         }
-        public Employee AddEmployee(Employee employee)
+        public async Task<Employee> AddEmployeeAsync(Employee employee)
         {
             if (employee == null)
                 throw new ArgumentException("Invalid input data");
 
-            _dbContext.Employees.Add(employee);
+            await _employeeRepository.AddAsync(employee);
             return employee;
         }
 

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OfficeControlSystemApi.Data.Repositorys
 {
-    public class AccessCardRepository : IAccessCardRepository
+    public class AccessCardRepository //: IAccessCardRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -14,32 +14,32 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public AccessCard GetById(long id)
+        public async Task<AccessCard> GetByIdAsync(long id)
         {
-            return _dbContext.Set<AccessCard>().Find(id);
+            return await _dbContext.Set<AccessCard>().FindAsync(id);
         }
 
-        public IEnumerable<AccessCard> GetAll()
+        public async Task<IEnumerable<AccessCard>> GetAllAsync()
         {
-            return _dbContext.Set<AccessCard>().ToList();
+            return await _dbContext.Set<AccessCard>().ToListAsync();
         }
 
-        public void Add(AccessCard entity)
+        public async Task AddAsync(AccessCard entity)
         {
-            _dbContext.Set<AccessCard>().Add(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.Set<AccessCard>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(AccessCard entity)
+        public async Task UpdateAsync(AccessCard entity)
         {
             _dbContext.Set<AccessCard>().Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(AccessCard entity)
+        public async Task DeleteAsync(AccessCard entity)
         {
             _dbContext.Set<AccessCard>().Remove(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

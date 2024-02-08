@@ -8,15 +8,15 @@ namespace OfficeControlSystemApi.Services
     public class AccessCardService : IAccessCardService
     {
         private readonly AppDbContext _dbContext;
-        private readonly Repository _accessCardRepository;
+        private readonly AccessCardRepository _accessCardRepository;
 
         public AccessCardService(AppDbContext context)
         {
             _dbContext = context;
-            _accessCardRepository = new Repository(context);
+            _accessCardRepository = new AccessCardRepository(context);
         }
 
-        public AccessCard CreateNewAccessCard(Employee employee)
+        public async Task<AccessCard> CreateNewAccessCardAsync(Employee employee)
         {
             var newAccessCard = new AccessCard
             {
@@ -25,8 +25,7 @@ namespace OfficeControlSystemApi.Services
                 Employee = employee
             };
 
-            _dbContext.AccessCards.Add(newAccessCard);
-            _dbContext.SaveChanges();
+            await _accessCardRepository.AddAsync(newAccessCard);
 
             return newAccessCard;
         }
@@ -35,6 +34,7 @@ namespace OfficeControlSystemApi.Services
         {
             accessCard.VisitHistories.Add(visitHistory);
             _dbContext.AccessCards.Add(accessCard);
+            //TODO maybe i should use AddAsync
         }
     }
 }

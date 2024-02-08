@@ -15,14 +15,14 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public VisitHistory GetById(long id)
+        public async Task<VisitHistory> GetByIdAsync(long id)
         {
-            return _dbContext.Set<VisitHistory>().Find(id);
+            return await _dbContext.Set<VisitHistory>().FindAsync(id);
         }
 
-        public IEnumerable<VisitHistory> GetAll()
+        public async Task<IEnumerable<VisitHistory>> GetAllAsync()
         {
-            return _dbContext.Set<VisitHistory>().ToList();
+            return await _dbContext.Set<VisitHistory>().ToListAsync();
         }
 
         public async Task AddAsync(VisitHistory entity)
@@ -31,16 +31,16 @@ namespace OfficeControlSystemApi.Data.Repositorys
             await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(VisitHistory entity)
+        public async Task UpdateAsync(VisitHistory entity)
         {
             _dbContext.Set<VisitHistory>().Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(VisitHistory entity)
+        public async Task DeleteAsync(VisitHistory entity)
         {
             _dbContext.Set<VisitHistory>().Remove(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

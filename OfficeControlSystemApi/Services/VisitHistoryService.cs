@@ -19,6 +19,7 @@ namespace OfficeControlSystemApi.Services
         public async Task<VisitHistory> CreateVisitHistoryAsync(long accessCardId)
         {
             var accessCard = _dbContext.AccessCards.FirstOrDefault(e => e.Id == accessCardId);
+            //TODO: use Repository
 
             if (accessCard == null)
                 throw new ArgumentException($"AccessCard with id {accessCardId} not found");
@@ -36,6 +37,8 @@ namespace OfficeControlSystemApi.Services
         public VisitHistory UpdateExitDateTime(long visitHistoryId)
         {
             var visitHistory = _dbContext.VisitHistories.FirstOrDefault(ah => ah.Id == visitHistoryId);
+            //TODO: use Repository
+
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");

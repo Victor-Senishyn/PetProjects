@@ -27,8 +27,8 @@ namespace OfficeControlSystemApi.Controllers
         {
             try
             {
-                var newEmployee = _employeeService.AddEmployee(employeeInput);
-                var newAccessCard = _accessCardService.CreateNewAccessCard(newEmployee);
+                var newEmployee = await _employeeService.AddEmployeeAsync(employeeInput);
+                var newAccessCard = await _accessCardService.CreateNewAccessCardAsync(newEmployee);
                 var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard.Id);
                 _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);
                 //maybe wrong

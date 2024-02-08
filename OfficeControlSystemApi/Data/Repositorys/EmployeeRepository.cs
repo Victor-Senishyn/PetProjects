@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace OfficeControlSystemApi.Data.Repositorys
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository //: IEmployeeRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -16,32 +16,32 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public Employee GetById(long id)
+        public async Task<Employee> GetByIdAsync(long id)
         {
-            return _dbContext.Set<Employee>().Find(id);
+            return await _dbContext.Set<Employee>().FindAsync(id);
         }
 
-        public IEnumerable<Employee> GetAll()
+        public async Task<IEnumerable<Employee>> GetAllAsync()
         {
-            return _dbContext.Set<Employee>().ToList();
+            return await _dbContext.Set<Employee>().ToListAsync();
         }
 
-        public void Add(Employee entity)
+        public async Task AddAsync(Employee entity)
         {
-            _dbContext.Set<Employee>().Add(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.Set<Employee>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(Employee entity)
+        public async Task UpdateAsync(Employee entity)
         {
             _dbContext.Set<Employee>().Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(Employee entity)
+        public async Task DeleteAsync(Employee entity)
         {
             _dbContext.Set<Employee>().Remove(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
