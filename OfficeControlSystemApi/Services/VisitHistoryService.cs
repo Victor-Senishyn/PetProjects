@@ -16,7 +16,7 @@ namespace OfficeControlSystemApi.Services
             _visitHistoryRepository = new Repository(context);
         }
 
-        public VisitHistory AddVisitHistory(long accessCardId)
+        public VisitHistory CreateVisitHistory(long accessCardId)
         {
             var accessCard = _dbContext.AccessCards.FirstOrDefault(e => e.Id == accessCardId);
 

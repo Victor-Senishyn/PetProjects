@@ -12,8 +12,8 @@ namespace OfficeControlSystemApi.Controllers
     public class OfficeControlSystemController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IAccessCardService _accessCardService;
-        private readonly IVisitHistoryService _visitHistoryService;
+        private readonly AccessCardService _accessCardService; // IAccessCardService
+        private readonly VisitHistoryService _visitHistoryService; // IVisitHistoryService
 
         public OfficeControlSystemController(AppDbContext context)
         {
@@ -23,11 +23,15 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("employee")]
-        public IActionResult AddEmployee([FromBody] Employee employeeInput)
+        public IActionResult CreateEmployee([FromBody] Employee employeeInput)
         {
             try
             {
                 var newEmployee = _employeeService.AddEmployee(employeeInput);
+                var newAccessCard = _accessCardService.CreateNewAccessCard(newEmployee);
+                var newVisitHistory = _visitHistoryService.CreateVisitHistory(newAccessCard.Id);
+                _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);
+
                 return Ok(newEmployee);
             }
             catch (ArgumentException ex)
@@ -55,7 +59,7 @@ namespace OfficeControlSystemApi.Controllers
         {
             try
             {
-                var newVisitHistory = _visitHistoryService.AddVisitHistory(employeeId);
+                var newVisitHistory = _visitHistoryService.CreateVisitHistory(employeeId);
                 return Ok(newVisitHistory);
             }
             catch (ArgumentException ex)

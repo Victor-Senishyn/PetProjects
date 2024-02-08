@@ -19,25 +19,7 @@ namespace OfficeControlSystemApi.Services
             if (employee == null)
                 throw new ArgumentException("Invalid input data");
 
-            var newAccessCard = new AccessCard
-            {
-                AccessLevel = AccessLevel.Low,
-                VisitHistories = new List<VisitHistory>(),
-                Employee = employee
-            };
-
-            var newVisitHistory = new VisitHistory
-            {
-                VisitDateTime = DateTimeOffset.UtcNow
-            };
-
-            newAccessCard.VisitHistories.Add(newVisitHistory);
-
             _dbContext.Employees.Add(employee);
-            _dbContext.AccessCards.Add(newAccessCard);
-            _dbContext.VisitHistories.Add(newVisitHistory);
-            _dbContext.SaveChanges();
-
             return employee;
         }
 
