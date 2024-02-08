@@ -8,15 +8,15 @@ namespace OfficeControlSystemApi.Services
     public class VisitHistoryService : IVisitHistoryService
     {
         private readonly AppDbContext _dbContext;
-        private readonly Repository _visitHistoryRepository;
+        private readonly VisitHistoryRepository _visitHistoryRepository;
 
         public VisitHistoryService(AppDbContext context)
         {
             _dbContext = context;
-            _visitHistoryRepository = new Repository(context);
+            _visitHistoryRepository = new VisitHistoryRepository(context);
         }
 
-        public VisitHistory CreateVisitHistory(long accessCardId)
+        public async Task<VisitHistory> CreateVisitHistoryAsync(long accessCardId)
         {
             var accessCard = _dbContext.AccessCards.FirstOrDefault(e => e.Id == accessCardId);
 
@@ -29,9 +29,7 @@ namespace OfficeControlSystemApi.Services
                 VisitDateTime = DateTimeOffset.UtcNow
             };
 
-            _dbContext.VisitHistories.Add(newVisitHistory);
-            _dbContext.SaveChanges();
-
+            await _visitHistoryRepository.AddAsync(newVisitHistory);
             return newVisitHistory;
         }
 
