@@ -27,7 +27,7 @@ namespace OfficeControlSystemApi.Services
                 VisitDateTime = DateTimeOffset.UtcNow
             };
 
-            await _visitHistoryRepository.AddAsync(newVisitHistory);//Exception
+            await _visitHistoryRepository.AddAsync(newVisitHistory);
             return newVisitHistory;
         }
 
