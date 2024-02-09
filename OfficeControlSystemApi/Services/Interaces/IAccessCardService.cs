@@ -4,7 +4,8 @@ namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IAccessCardService
     {
-        Task<AccessCard> CreateNewAccessCardAsync(Employee employee);
+        Task<AccessCard> CreateAccessCardAsync(Employee employee);
+        Task<AccessCard> GetAccessCardById(long id);
         void AddVisitHistory(AccessCard accessCard, VisitHistory visitHistory);
     }
 }

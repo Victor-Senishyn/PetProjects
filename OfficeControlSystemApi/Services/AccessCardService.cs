@@ -16,7 +16,7 @@ namespace OfficeControlSystemApi.Services
             _accessCardRepository = new AccessCardRepository(context);
         }
 
-        public async Task<AccessCard> CreateNewAccessCardAsync(Employee employee)
+        public async Task<AccessCard> CreateAccessCardAsync(Employee employee)
         {
             var newAccessCard = new AccessCard
             {
@@ -30,7 +30,7 @@ namespace OfficeControlSystemApi.Services
             return newAccessCard;
         }
 
-        public async Task<AccessCard> GetAccessCardById(long id)//Update in Interface
+        public async Task<AccessCard> GetAccessCardById(long id)
         {
             return await _accessCardRepository.GetByIdAsync(id);
         }
@@ -39,7 +39,7 @@ namespace OfficeControlSystemApi.Services
         {
             accessCard.VisitHistories.Add(visitHistory);
             _dbContext.AccessCards.Add(accessCard);
-            //TODO maybe i should use AddAsync
+            //TODO maybe i should use _accessCardRepository.AddAsync?
         }
     }
 }

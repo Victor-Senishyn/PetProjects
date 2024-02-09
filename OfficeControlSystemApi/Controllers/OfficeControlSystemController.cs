@@ -28,7 +28,7 @@ namespace OfficeControlSystemApi.Controllers
             try
             {
                 var newEmployee = await _employeeService.AddEmployeeAsync(employeeInput);
-                var newAccessCard = await _accessCardService.CreateNewAccessCardAsync(newEmployee);
+                var newAccessCard = await _accessCardService.CreateAccessCardAsync(newEmployee);
                 var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
                 _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);
                 return Ok(newEmployee);
@@ -56,11 +56,11 @@ namespace OfficeControlSystemApi.Controllers
         [HttpPost("visit/{employeeId}")]
         public async Task<IActionResult> AddVisitHistory(long employeeId)
         {
-            try///update don't work now
+            try///don't work now
             {
                 var newAccessCard = await _accessCardService.GetAccessCardById(employeeId);//
                 var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);//
-                _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);//
+                newAccessCard.VisitHistories.Add(newVisitHistory);
 
                 return Ok(newVisitHistory);
             }

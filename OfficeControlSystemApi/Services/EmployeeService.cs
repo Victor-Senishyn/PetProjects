@@ -7,11 +7,9 @@ namespace OfficeControlSystemApi.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly AppDbContext _dbContext;
         private readonly EmployeeRepository _employeeRepository;
         public EmployeeService(AppDbContext context)
         {
-            _dbContext = context;
             _employeeRepository = new EmployeeRepository(context);
         }
         public async Task<Employee> AddEmployeeAsync(Employee employee)

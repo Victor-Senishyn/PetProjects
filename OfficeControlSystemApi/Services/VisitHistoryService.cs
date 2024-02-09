@@ -18,8 +18,6 @@ namespace OfficeControlSystemApi.Services
 
         public async Task<VisitHistory> CreateVisitHistoryAsync(AccessCard accessCard)
         {
-            //TODO: Maybe I should create method in AccessCardServices which will be return this?
-
             if (accessCard == null)
                 throw new ArgumentException($"AccessCard with id {accessCard} not found");
 
@@ -29,11 +27,11 @@ namespace OfficeControlSystemApi.Services
                 VisitDateTime = DateTimeOffset.UtcNow
             };
 
-            await _visitHistoryRepository.AddAsync(newVisitHistory);
+            await _visitHistoryRepository.AddAsync(newVisitHistory);//Exception
             return newVisitHistory;
         }
 
-        public async Task<VisitHistory> UpdateExitDateTime(long visitHistoryId)///
+        public async Task<VisitHistory> UpdateExitDateTime(long visitHistoryId)
         {
             var visitHistory = await _visitHistoryRepository.GetByIdAsync(visitHistoryId);//_dbContext.VisitHistories.FirstOrDefault(ah => ah.Id == visitHistoryId);
 
