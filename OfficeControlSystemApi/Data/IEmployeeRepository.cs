@@ -5,10 +5,10 @@ namespace OfficeControlSystemApi.Data
 {
     public interface IEmployeeRepository
     {
-        Employee GetById(long id);
-        IEnumerable<Employee> GetAll();
-        void Add(Employee entity);
-        void Update(Employee entity);
-        void Delete(Employee entity);
+        Task<Employee> GetByIdAsync(long id);
+        Task<IEnumerable<Employee>> GetAllAsync();
+        Task AddAsync(Employee entity);
+        Task UpdateAsync(Employee entity);
+        Task DeleteAsync(Employee entity);
     }
 }

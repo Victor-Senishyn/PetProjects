@@ -5,7 +5,7 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
-    public class EmployeeService //: IEmployeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly AppDbContext _dbContext;
         private readonly EmployeeRepository _employeeRepository;

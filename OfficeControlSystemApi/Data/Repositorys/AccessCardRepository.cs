@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OfficeControlSystemApi.Data.Repositorys
 {
-    public class AccessCardRepository //: IAccessCardRepository
+    public class AccessCardRepository: IAccessCardRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -16,7 +16,7 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task<AccessCard> GetByIdAsync(long id)
         {
-            return await _dbContext.Set<AccessCard>().FindAsync(id);
+            return await _dbContext.Set<AccessCard>().FirstOrDefaultAsync(ah => ah.Id == id);
         }
 
         public async Task<IEnumerable<AccessCard>> GetAllAsync()

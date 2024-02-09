@@ -16,13 +16,12 @@ namespace OfficeControlSystemApi.Services
             _visitHistoryRepository = new VisitHistoryRepository(context);
         }
 
-        public async Task<VisitHistory> CreateVisitHistoryAsync(long accessCardId)
+        public async Task<VisitHistory> CreateVisitHistoryAsync(AccessCard accessCard)
         {
-            var accessCard = _dbContext.AccessCards.FirstOrDefault(e => e.Id == accessCardId);
-            //TODO: use Repository
+            //TODO: Maybe I should create method in AccessCardServices which will be return this?
 
             if (accessCard == null)
-                throw new ArgumentException($"AccessCard with id {accessCardId} not found");
+                throw new ArgumentException($"AccessCard with id {accessCard} not found");
 
             var newVisitHistory = new VisitHistory
             {
@@ -34,11 +33,9 @@ namespace OfficeControlSystemApi.Services
             return newVisitHistory;
         }
 
-        public VisitHistory UpdateExitDateTime(long visitHistoryId)
+        public async Task<VisitHistory> UpdateExitDateTime(long visitHistoryId)///
         {
-            var visitHistory = _dbContext.VisitHistories.FirstOrDefault(ah => ah.Id == visitHistoryId);
-            //TODO: use Repository
-
+            var visitHistory = await _visitHistoryRepository.GetByIdAsync(visitHistoryId);//_dbContext.VisitHistories.FirstOrDefault(ah => ah.Id == visitHistoryId);
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");

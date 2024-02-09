@@ -5,10 +5,10 @@ namespace OfficeControlSystemApi.Data
 {
     public interface IVisitHistoryRepository
     {
-        VisitHistory GetById(long id);
-        IEnumerable<VisitHistory> GetAll();
+        Task<VisitHistory> GetByIdAsync(long id);
+        Task<IEnumerable<VisitHistory>> GetAllAsync();
         Task AddAsync(VisitHistory entity);
-        void Update(VisitHistory entity);
-        void Delete(VisitHistory entity);
+        Task UpdateAsync(VisitHistory entity);
+        Task DeleteAsync(VisitHistory entity);
     }
 }

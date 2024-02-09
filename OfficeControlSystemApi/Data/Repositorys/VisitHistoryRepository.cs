@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace OfficeControlSystemApi.Data.Repositorys
 {
-    public class VisitHistoryRepository
+    public class VisitHistoryRepository : IVisitHistoryRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task<VisitHistory> GetByIdAsync(long id)
         {
-            return await _dbContext.Set<VisitHistory>().FindAsync(id);
+            return await _dbContext.Set<VisitHistory>().FirstOrDefaultAsync(ah => ah.Id == id);
         }
 
         public async Task<IEnumerable<VisitHistory>> GetAllAsync()

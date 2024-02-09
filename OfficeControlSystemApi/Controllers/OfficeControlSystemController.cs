@@ -11,9 +11,9 @@ namespace OfficeControlSystemApi.Controllers
     [ApiController]
     public class OfficeControlSystemController : ControllerBase
     {
-        private readonly EmployeeService _employeeService; // IEmployeeService
-        private readonly AccessCardService _accessCardService; // IAccessCardService
-        private readonly VisitHistoryService _visitHistoryService; // IVisitHistoryService
+        private readonly EmployeeService _employeeService;
+        private readonly AccessCardService _accessCardService;
+        private readonly VisitHistoryService _visitHistoryService;
 
         public OfficeControlSystemController(AppDbContext context)
         {
@@ -29,9 +29,8 @@ namespace OfficeControlSystemApi.Controllers
             {
                 var newEmployee = await _employeeService.AddEmployeeAsync(employeeInput);
                 var newAccessCard = await _accessCardService.CreateNewAccessCardAsync(newEmployee);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard.Id);
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
                 _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);
-                //maybe wrong
                 return Ok(newEmployee);
             }
             catch (ArgumentException ex)
@@ -41,11 +40,11 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPut("exit/{visitHistoryId}")]
-        public IActionResult UpdateExitDateTime(long visitHistoryId)
+        public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId)
         {
             try
             {
-                var newVisitHistory = _visitHistoryService.UpdateExitDateTime(visitHistoryId);
+                var newVisitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId);
                 return Ok(newVisitHistory);
             }
             catch (ArgumentException ex)
@@ -55,11 +54,14 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("visit/{employeeId}")]
-        public IActionResult AddAccessHistory(long employeeId)
+        public async Task<IActionResult> AddVisitHistory(long employeeId)
         {
-            try
+            try///update don't work now
             {
-                var newVisitHistory = _visitHistoryService.CreateVisitHistoryAsync(employeeId);
+                var newAccessCard = await _accessCardService.GetAccessCardById(employeeId);//
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);//
+                _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);//
+
                 return Ok(newVisitHistory);
             }
             catch (ArgumentException ex)

@@ -5,6 +5,6 @@ namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IEmployeeService
     {
-        Employee AddEmployee(Employee employeeInput);
+        Task<Employee> AddEmployeeAsync(Employee employee);
     }
 }

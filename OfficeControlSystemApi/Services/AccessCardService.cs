@@ -30,6 +30,11 @@ namespace OfficeControlSystemApi.Services
             return newAccessCard;
         }
 
+        public async Task<AccessCard> GetAccessCardById(long id)//Update in Interface
+        {
+            return await _accessCardRepository.GetByIdAsync(id);
+        }
+
         public void AddVisitHistory(AccessCard accessCard, VisitHistory visitHistory)
         {
             accessCard.VisitHistories.Add(visitHistory);
