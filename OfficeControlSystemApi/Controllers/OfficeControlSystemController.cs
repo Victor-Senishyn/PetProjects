@@ -53,12 +53,12 @@ namespace OfficeControlSystemApi.Controllers
             }
         }
 
-        [HttpPost("visit/{employeeId}")]
-        public async Task<IActionResult> AddVisitHistory(long employeeId)
+        [HttpPost("visit/{accessCardId}")]
+        public async Task<IActionResult> AddVisitHistory(long accessCardId)
         {
             try///don't work now
             {
-                var newAccessCard = await _accessCardService.GetAccessCardById(employeeId);//
+                var newAccessCard = await _accessCardService.GetAccessCardById(accessCardId);//
                 var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);//
                 newAccessCard.VisitHistories.Add(newVisitHistory);
 

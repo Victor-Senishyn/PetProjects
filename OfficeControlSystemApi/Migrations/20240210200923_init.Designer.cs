@@ -12,7 +12,7 @@ using OfficeControlSystemApi.Data;
 namespace OfficeControlSystemApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240207213341_init")]
+    [Migration("20240210200923_init")]
     partial class init
     {
         /// <inheritdoc />
