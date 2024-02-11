@@ -12,6 +12,12 @@ namespace OfficeControlSystemApi.Services
         {
             _employeeRepository = new EmployeeRepository(context);
         }
+
+        public Employee CreateEmployee(string firstname, string lastname)
+        {
+            return new Employee { FirstName = firstname, LastName = lastname };
+        }//maybe will delete
+
         public async Task<Employee> AddEmployeeAsync(Employee employee)
         {
             if (employee == null)

@@ -16,7 +16,14 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task<AccessCard> GetByIdAsync(long id)
         {
-            return await _dbContext.Set<AccessCard>().FirstOrDefaultAsync(ah => ah.Id == id);
+            var accessCard = await _dbContext.Set<AccessCard>().FirstOrDefaultAsync(ah => ah.Id == id);
+
+            if (accessCard == null)
+            {
+                throw new ArgumentException("Access card not found", nameof(id));
+            }
+
+            return accessCard;
         }
 
         public async Task<IEnumerable<AccessCard>> GetAllAsync()

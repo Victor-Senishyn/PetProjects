@@ -9,10 +9,10 @@ namespace OfficeControlSystemApi.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        [ForeignKey(nameof(AccessCardId))]
         public long AccessCardId { get; set; }
         public DateTimeOffset VisitDateTime { get; set; }
         public DateTimeOffset ExitDateTime { get; set; }
-        [ForeignKey(nameof(AccessCardId))]
-        public AccessCard AccessCard { get; set; }
+        //public AccessCard AccessCard { get; set; }
     }
 }

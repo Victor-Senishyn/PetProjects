@@ -21,15 +21,23 @@ namespace OfficeControlSystemApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccessCard>()
-                .HasOne(ac => ac.Employee)
-                .WithMany()
-                .HasForeignKey(ac => ac.EmployeeId);
-
-            modelBuilder.Entity<VisitHistory>()
-                .HasOne(vh => vh.AccessCard)
-                .WithMany(ac => ac.VisitHistories)
-                .HasForeignKey(vh => vh.AccessCardId);
+                .HasOne(ac => ac.Employee)         
+                .WithMany()         
+                .HasForeignKey(ac => ac.EmployeeId); 
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Employee>()
+        //        .HasOne(e => e.AccessCard)
+        //        .WithOne(ac => ac.Employee)
+        //        .HasForeignKey<Employee>(e => e.AccessCardId);
+
+        //    modelBuilder.Entity<VisitHistory>()
+        //        .HasOne(vh => vh.AccessCard)
+        //        .WithMany(ac => ac.VisitHistories)
+        //        .HasForeignKey(vh => vh.AccessCardId);
+        //}
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<AccessCard> AccessCards { get; set; }

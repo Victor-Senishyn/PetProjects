@@ -6,6 +6,5 @@ namespace OfficeControlSystemApi.Services.Interaces
     {
         Task<AccessCard> CreateAccessCardAsync(Employee employee);
         Task<AccessCard> GetAccessCardById(long id);
-        void AddVisitHistory(AccessCard accessCard, VisitHistory visitHistory);
     }
 }

@@ -16,7 +16,7 @@ namespace OfficeControlSystemApi.Services
             _visitHistoryRepository = new VisitHistoryRepository(context);
         }
 
-        public async Task<VisitHistory> CreateVisitHistoryAsync(AccessCard accessCard)
+        public VisitHistory CreateVisitHistory(AccessCard accessCard)
         {
             if (accessCard == null)
                 throw new ArgumentException($"AccessCard with id {accessCard} not found");
@@ -27,6 +27,20 @@ namespace OfficeControlSystemApi.Services
                 VisitDateTime = DateTimeOffset.UtcNow
             };
 
+            _dbContext.VisitHistories.Add(newVisitHistory);
+            return newVisitHistory;
+        }
+
+        public async Task<VisitHistory> CreateVisitHistoryAsync(AccessCard accessCard)
+        {
+            if (accessCard == null)
+                throw new ArgumentException($"AccessCard with id {accessCard} not found");
+
+            var newVisitHistory = new VisitHistory
+            {
+                AccessCardId = accessCard.Id,
+                VisitDateTime = DateTimeOffset.UtcNow
+            };
             await _visitHistoryRepository.AddAsync(newVisitHistory);
             return newVisitHistory;
         }

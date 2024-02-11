@@ -1,4 +1,5 @@
-﻿using OfficeControlSystemApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Data.Repositorys;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Services.Interaces;
@@ -33,13 +34,6 @@ namespace OfficeControlSystemApi.Services
         public async Task<AccessCard> GetAccessCardById(long id)
         {
             return await _accessCardRepository.GetByIdAsync(id);
-        }
-
-        public void AddVisitHistory(AccessCard accessCard, VisitHistory visitHistory)
-        {
-            accessCard.VisitHistories.Add(visitHistory);
-            _dbContext.AccessCards.Add(accessCard);
-            //TODO maybe i should use _accessCardRepository.AddAsync?
         }
     }
 }

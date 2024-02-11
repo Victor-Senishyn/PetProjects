@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Services;
@@ -22,6 +23,13 @@ namespace OfficeControlSystemApi.Controllers
             _visitHistoryService = new VisitHistoryService(context);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get(long id)
+        {
+            var test = await _accessCardService.GetAccessCardById(id);
+            return Ok(test);
+        }
+
         [HttpPost("employee")]
         public async Task<IActionResult> CreateEmployee([FromBody] Employee employeeInput)
         {
@@ -30,7 +38,8 @@ namespace OfficeControlSystemApi.Controllers
                 var newEmployee = await _employeeService.AddEmployeeAsync(employeeInput);
                 var newAccessCard = await _accessCardService.CreateAccessCardAsync(newEmployee);
                 var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
-                _accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);
+
+                //_accessCardService.AddVisitHistory(newAccessCard, newVisitHistory);
                 return Ok(newEmployee);
             }
             catch (ArgumentException ex)
@@ -58,15 +67,23 @@ namespace OfficeControlSystemApi.Controllers
         {
             try///don't work now
             {
-                var newAccessCard = await _accessCardService.GetAccessCardById(accessCardId);//
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);//
-                newAccessCard.VisitHistories.Add(newVisitHistory);
+                var newAccessCard = await _accessCardService.GetAccessCardById(accessCardId);
+                //var newAccessCard = _dbContext.Set<AccessCard>().FirstOrDefaultAsync(ah => ah.Id == accessCardId);
 
-                return Ok(newVisitHistory);
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
+                //var newVisitHistory = _visitHistoryService.CreateVisitHistory(newAccessCard);
+
+                //newAccessCard.VisitHistories.Add(newVisitHistory);
+
+                return Ok(newAccessCard);
             }
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.StackTrace);
             }
         }
     }
