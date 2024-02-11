@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.DTOs;
 
 namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IEmployeeService
     {
-        Task<Employee> AddEmployeeAsync(Employee employee);
+        Task<EmployeeDto> CreateEmployeeDtoAsync(Employee employee);
     }
 }

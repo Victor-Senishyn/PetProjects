@@ -14,22 +14,10 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<AccessCard> GetByIdAsync(long id)
+        public async Task<IEnumerable<AccessCard>> GetAsync(Func<AccessCard, bool> filterCriteria)
         {
-            var accessCard = await _dbContext.Set<AccessCard>().FirstOrDefaultAsync(ah => ah.Id == id);
-
-            if (accessCard == null)
-            {
-                throw new ArgumentException("Access card not found", nameof(id));
-            }
-
-            return accessCard;
-        }
-
-        public async Task<IEnumerable<AccessCard>> GetAllAsync()
-        {
-            return await _dbContext.Set<AccessCard>().ToListAsync();
-        }
+            return _dbContext.AccessCards.Where(filterCriteria);
+        }//
 
         public async Task AddAsync(AccessCard entity)
         {

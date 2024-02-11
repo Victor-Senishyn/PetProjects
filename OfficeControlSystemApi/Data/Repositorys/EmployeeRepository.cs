@@ -16,14 +16,9 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<Employee> GetByIdAsync(long id)
+        public async Task<IEnumerable<Employee>> GetAsync(Func<Employee, bool> filterCriteria)
         {
-            return await _dbContext.Set<Employee>().FirstOrDefaultAsync(ah => ah.Id == id);
-        }
-
-        public async Task<IEnumerable<Employee>> GetAllAsync()
-        {
-            return await _dbContext.Set<Employee>().ToListAsync();
+            return _dbContext.Employees.Where(filterCriteria);
         }
 
         public async Task AddAsync(Employee entity)

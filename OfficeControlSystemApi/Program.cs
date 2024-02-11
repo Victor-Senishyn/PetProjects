@@ -12,8 +12,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
-//builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

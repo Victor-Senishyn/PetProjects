@@ -4,8 +4,7 @@ namespace OfficeControlSystemApi.Data
 {
     public interface IAccessCardRepository
     {
-        Task<AccessCard> GetByIdAsync(long id);
-        Task<IEnumerable<AccessCard>> GetAllAsync();
+        Task<IEnumerable<AccessCard>> GetAsync(Func<AccessCard, bool> filterCriteria);
         Task AddAsync(AccessCard entity);
         Task UpdateAsync(AccessCard entity);
         Task DeleteAsync(AccessCard entity);

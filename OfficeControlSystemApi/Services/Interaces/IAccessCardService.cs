@@ -1,10 +1,11 @@
 ﻿using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.DTOs;
 
 namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IAccessCardService
     {
-        Task<AccessCard> CreateAccessCardAsync(Employee employee);
-        Task<AccessCard> GetAccessCardById(long id);
+        Task<AccessCardDto> CreateAccessCardDtoAsync(Employee employee);
+        Task<AccessCardDto> GetAccessCardByIdAsync(long id);
     }
 }

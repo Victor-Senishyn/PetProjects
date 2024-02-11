@@ -1,22 +1,22 @@
-﻿using OfficeControlSystemApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Data.Repositorys;
 using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
     public class VisitHistoryService : IVisitHistoryService
     {
-        private readonly AppDbContext _dbContext;
         private readonly VisitHistoryRepository _visitHistoryRepository;
 
         public VisitHistoryService(AppDbContext context)
         {
-            _dbContext = context;
             _visitHistoryRepository = new VisitHistoryRepository(context);
         }
 
-        public VisitHistory CreateVisitHistory(AccessCard accessCard)
+        public async Task<VisitHistoryDto> CreateVisitHistoryDtoAsync(AccessCardDto accessCard)
         {
             if (accessCard == null)
                 throw new ArgumentException($"AccessCard with id {accessCard} not found");
@@ -26,36 +26,36 @@ namespace OfficeControlSystemApi.Services
                 AccessCardId = accessCard.Id,
                 VisitDateTime = DateTimeOffset.UtcNow
             };
-
-            _dbContext.VisitHistories.Add(newVisitHistory);
-            return newVisitHistory;
-        }
-
-        public async Task<VisitHistory> CreateVisitHistoryAsync(AccessCard accessCard)
-        {
-            if (accessCard == null)
-                throw new ArgumentException($"AccessCard with id {accessCard} not found");
-
-            var newVisitHistory = new VisitHistory
-            {
-                AccessCardId = accessCard.Id,
-                VisitDateTime = DateTimeOffset.UtcNow
-            };
+            
             await _visitHistoryRepository.AddAsync(newVisitHistory);
-            return newVisitHistory;
+            
+            return new VisitHistoryDto()
+            {
+                Id = newVisitHistory.Id,
+                AccessCardId = newVisitHistory.AccessCardId,
+                VisitDateTime = newVisitHistory.VisitDateTime,
+                ExitDateTime = newVisitHistory.ExitDateTime
+            };
         }
 
-        public async Task<VisitHistory> UpdateExitDateTime(long visitHistoryId)
+        public async Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId)
         {
-            var visitHistory = await _visitHistoryRepository.GetByIdAsync(visitHistoryId);//_dbContext.VisitHistories.FirstOrDefault(ah => ah.Id == visitHistoryId);
+            var visitHistory = (await _visitHistoryRepository.GetAsync(vh => vh.Id == visitHistoryId)).SingleOrDefault();
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");
 
             visitHistory.ExitDateTime = DateTimeOffset.UtcNow;
-            _dbContext.SaveChanges();
 
-            return visitHistory;
+            _visitHistoryRepository.UpdateAsync(visitHistory);
+
+            return new VisitHistoryDto()
+            {
+                Id = visitHistory.Id,
+                AccessCardId = visitHistory.AccessCardId,
+                VisitDateTime = visitHistory.VisitDateTime,
+                ExitDateTime = visitHistory.ExitDateTime
+            };
         }
     }
 }

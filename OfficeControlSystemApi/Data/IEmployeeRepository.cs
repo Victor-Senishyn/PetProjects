@@ -5,8 +5,7 @@ namespace OfficeControlSystemApi.Data
 {
     public interface IEmployeeRepository
     {
-        Task<Employee> GetByIdAsync(long id);
-        Task<IEnumerable<Employee>> GetAllAsync();
+        Task<IEnumerable<Employee>> GetAsync(Func<Employee, bool> filterCriteria);
         Task AddAsync(Employee entity);
         Task UpdateAsync(Employee entity);
         Task DeleteAsync(Employee entity);

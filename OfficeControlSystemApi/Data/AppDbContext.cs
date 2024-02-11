@@ -26,19 +26,6 @@ namespace OfficeControlSystemApi.Data
                 .HasForeignKey(ac => ac.EmployeeId); 
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Employee>()
-        //        .HasOne(e => e.AccessCard)
-        //        .WithOne(ac => ac.Employee)
-        //        .HasForeignKey<Employee>(e => e.AccessCardId);
-
-        //    modelBuilder.Entity<VisitHistory>()
-        //        .HasOne(vh => vh.AccessCard)
-        //        .WithMany(ac => ac.VisitHistories)
-        //        .HasForeignKey(vh => vh.AccessCardId);
-        //}
-
         public DbSet<Employee> Employees { get; set; }
         public DbSet<AccessCard> AccessCards { get; set; }
         public DbSet<VisitHistory> VisitHistories { get; set; }

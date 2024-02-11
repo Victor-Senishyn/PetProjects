@@ -2,22 +2,21 @@
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Data.Repositorys;
 using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
     public class AccessCardService : IAccessCardService
     {
-        private readonly AppDbContext _dbContext;
         private readonly AccessCardRepository _accessCardRepository;
 
         public AccessCardService(AppDbContext context)
         {
-            _dbContext = context;
             _accessCardRepository = new AccessCardRepository(context);
         }
 
-        public async Task<AccessCard> CreateAccessCardAsync(Employee employee)
+        public async Task<AccessCardDto> CreateAccessCardDtoAsync(Employee employee)
         {
             var newAccessCard = new AccessCard
             {
@@ -28,12 +27,24 @@ namespace OfficeControlSystemApi.Services
 
             await _accessCardRepository.AddAsync(newAccessCard);
 
-            return newAccessCard;
+            return new AccessCardDto(){
+                Id = newAccessCard.Id,
+                AccessLevel = AccessLevel.Low,
+            };
         }
 
-        public async Task<AccessCard> GetAccessCardById(long id)
+        public async Task<AccessCardDto> GetAccessCardByIdAsync(long id)
         {
-            return await _accessCardRepository.GetByIdAsync(id);
+            var accessCard = (await _accessCardRepository.GetAsync(accessCard => accessCard.Id == id)).SingleOrDefault();
+
+            if (accessCard == null)
+                throw new ArgumentException($"Access Card by Id {id} not found");
+
+            return new AccessCardDto()
+            {
+                Id = accessCard.Id,
+                AccessLevel = accessCard.AccessLevel
+            };
         }
     }
 }
