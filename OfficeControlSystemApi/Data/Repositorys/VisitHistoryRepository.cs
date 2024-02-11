@@ -15,7 +15,7 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<VisitHistory>> GetAsync(Func<VisitHistory, bool> filterCriteria)
+        public async Task<IEnumerable<VisitHistory>> Get(Func<VisitHistory, bool> filterCriteria)
         {
             return _dbContext.VisitHistories.Where(filterCriteria);
         }

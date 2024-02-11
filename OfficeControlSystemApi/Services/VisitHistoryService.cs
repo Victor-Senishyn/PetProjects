@@ -40,7 +40,7 @@ namespace OfficeControlSystemApi.Services
 
         public async Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId)
         {
-            var visitHistory = (await _visitHistoryRepository.GetAsync(vh => vh.Id == visitHistoryId)).SingleOrDefault();
+            var visitHistory = (await _visitHistoryRepository.Get(vh => vh.Id == visitHistoryId)).SingleOrDefault();
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");

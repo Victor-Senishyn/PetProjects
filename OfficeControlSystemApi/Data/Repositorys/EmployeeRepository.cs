@@ -16,7 +16,7 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Employee>> GetAsync(Func<Employee, bool> filterCriteria)
+        public async Task<IEnumerable<Employee>> Get(Func<Employee, bool> filterCriteria)
         {
             return _dbContext.Employees.Where(filterCriteria);
         }

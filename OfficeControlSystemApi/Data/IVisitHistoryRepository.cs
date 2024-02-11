@@ -5,7 +5,7 @@ namespace OfficeControlSystemApi.Data
 {
     public interface IVisitHistoryRepository
     {
-        Task<IEnumerable<VisitHistory>> GetAsync(Func<VisitHistory, bool> filterCriteria);
+        Task<IEnumerable<VisitHistory>> Get(Func<VisitHistory, bool> filterCriteria);
         Task AddAsync(VisitHistory entity);
         Task UpdateAsync(VisitHistory entity);
         Task DeleteAsync(VisitHistory entity);

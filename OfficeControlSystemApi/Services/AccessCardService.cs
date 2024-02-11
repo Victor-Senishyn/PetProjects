@@ -35,7 +35,7 @@ namespace OfficeControlSystemApi.Services
 
         public async Task<AccessCardDto> GetAccessCardByIdAsync(long id)
         {
-            var accessCard = (await _accessCardRepository.GetAsync(accessCard => accessCard.Id == id)).SingleOrDefault();
+            var accessCard = (await _accessCardRepository.Get(accessCard => accessCard.Id == id)).SingleOrDefault();
 
             if (accessCard == null)
                 throw new ArgumentException($"Access Card by Id {id} not found");

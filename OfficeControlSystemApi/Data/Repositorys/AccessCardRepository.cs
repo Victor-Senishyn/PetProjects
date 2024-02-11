@@ -14,7 +14,7 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<AccessCard>> GetAsync(Func<AccessCard, bool> filterCriteria)
+        public async Task<IEnumerable<AccessCard>> Get(Func<AccessCard, bool> filterCriteria)
         {
             return _dbContext.AccessCards.Where(filterCriteria);
         }//
