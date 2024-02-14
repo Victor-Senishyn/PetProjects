@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Models.Interface;
-using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeControlSystemApi.Data.Interfaces;
+using OfficeControlSystemApi.Data.Filters;
 
 namespace OfficeControlSystemApi.Data.Repositorys
 {
@@ -16,9 +17,18 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Employee>> Get(Func<Employee, bool> filterCriteria)
+        public async Task<IQueryable<Employee>> GetAsync(EmployeeFilter employeeFilter)
         {
-            return _dbContext.Employees.Where(filterCriteria);
+            var query = _dbContext.Employees.AsQueryable();
+
+            if(employeeFilter.Id != null)
+                query = query.Where(employee => employee.Id == employeeFilter.Id);
+            else if(employeeFilter.FirstName != null)
+                query = query.Where(employee => employee.FirstName == employeeFilter.FirstName);
+            else if(employeeFilter.LastName != null)
+                query = query.Where(employee => employee.LastName == employeeFilter.LastName);
+
+            return query;
         }
 
         public async Task AddAsync(Employee entity)

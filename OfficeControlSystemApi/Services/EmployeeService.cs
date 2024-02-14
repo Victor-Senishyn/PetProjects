@@ -15,19 +15,22 @@ namespace OfficeControlSystemApi.Services
             _employeeRepository = new EmployeeRepository(context);
         }
 
-        public async Task<EmployeeDto> CreateEmployeeDtoAsync(Employee employee)
+        public async Task<EmployeeDto> CreateEmployeeAsync(EmployeeDto employeeDto)
         {
-            if (employee == null)
+            if (employeeDto == null)
                 throw new ArgumentException("Invalid input data");
 
-            await _employeeRepository.AddAsync(employee);
-            return new EmployeeDto() 
-            { 
-                Id = employee.Id, 
-                FirstName = employee.FirstName, 
-                LastName = employee.LastName 
+            var employee = new Employee()
+            {
+                FirstName = employeeDto.FirstName,
+                LastName = employeeDto.LastName,
             };
-        }
 
+            await _employeeRepository.AddAsync(employee);
+
+            employeeDto.Id = employee.Id;
+
+            return employeeDto;
+        }
     }
 }

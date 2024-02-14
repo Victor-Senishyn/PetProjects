@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Data;
+using OfficeControlSystemApi.Data.Filters;
+using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Data.Repositorys;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.DTOs;
@@ -16,7 +18,7 @@ namespace OfficeControlSystemApi.Services
             _visitHistoryRepository = new VisitHistoryRepository(context);
         }
 
-        public async Task<VisitHistoryDto> CreateVisitHistoryDtoAsync(AccessCardDto accessCard)
+        public async Task<VisitHistoryDto> CreateVisitHistoryAsync(AccessCardDto accessCard)
         {
             if (accessCard == null)
                 throw new ArgumentException($"AccessCard with id {accessCard} not found");
@@ -40,7 +42,7 @@ namespace OfficeControlSystemApi.Services
 
         public async Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId)
         {
-            var visitHistory = (await _visitHistoryRepository.Get(vh => vh.Id == visitHistoryId)).SingleOrDefault();
+            var visitHistory = (await _visitHistoryRepository.GetAsync(new VisitHistoryFilter() { Id = visitHistoryId })).SingleOrDefault();
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");

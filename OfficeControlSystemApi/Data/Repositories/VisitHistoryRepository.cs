@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OfficeControlSystemApi.Data.Filters;
+using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.Interface;
 using System.Collections.Generic;
@@ -15,9 +17,20 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<VisitHistory>> Get(Func<VisitHistory, bool> filterCriteria)
+        public async Task<IQueryable<VisitHistory>> GetAsync(VisitHistoryFilter visitHistoryFilter)
         {
-            return _dbContext.VisitHistories.Where(filterCriteria);
+            var query = _dbContext.VisitHistories.AsQueryable();
+
+            if (visitHistoryFilter.Id != null)
+                query = query.Where(visitHistory => visitHistory.Id == visitHistoryFilter.Id);
+            else if (visitHistoryFilter.AccessCardId != null)
+                query = query.Where(visitHistory => visitHistory.AccessCardId == visitHistoryFilter.AccessCardId);
+            else if (visitHistoryFilter.VisitDateTime != null)
+                query = query.Where(visitHistory => visitHistory.VisitDateTime == visitHistoryFilter.VisitDateTime);
+            else if (visitHistoryFilter.ExitDateTime != null)
+                query = query.Where(visitHistory => visitHistory.ExitDateTime == visitHistoryFilter.ExitDateTime);
+
+            return query;
         }
 
         public async Task AddAsync(VisitHistory entity)

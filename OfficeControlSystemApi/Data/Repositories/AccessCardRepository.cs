@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OfficeControlSystemApi.Data.Filters;
+using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace OfficeControlSystemApi.Data.Repositorys
 {
@@ -14,10 +17,19 @@ namespace OfficeControlSystemApi.Data.Repositorys
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<AccessCard>> Get(Func<AccessCard, bool> filterCriteria)
+        public async Task<IQueryable<AccessCard>> GetAsync(AccessCardFilter accessCardFilter)
         {
-            return _dbContext.AccessCards.Where(filterCriteria);
-        }//
+            var query = _dbContext.AccessCards.AsQueryable();
+
+            if (accessCardFilter.Id != null)
+                query = query.Where(accessCard => accessCard.Id == accessCardFilter.Id);
+            else if(accessCardFilter.EmployeeId != null)
+                query = query.Where(accessCard => accessCard.EmployeeId == accessCardFilter.EmployeeId);
+            else if(accessCardFilter.AccessLevel != null)
+                query = query.Where(accessCard => accessCard.AccessLevel == accessCardFilter.AccessLevel);
+
+            return query;
+        }
 
         public async Task AddAsync(AccessCard entity)
         {
@@ -33,6 +45,7 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task DeleteAsync(AccessCard entity)
         {
+
             _dbContext.Set<AccessCard>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }

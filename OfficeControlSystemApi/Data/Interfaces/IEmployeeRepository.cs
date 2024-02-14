@@ -1,11 +1,12 @@
-﻿using OfficeControlSystemApi.Models;
+﻿using OfficeControlSystemApi.Data.Filters;
+using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.Interface;
 
-namespace OfficeControlSystemApi.Data
+namespace OfficeControlSystemApi.Data.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<Employee>> Get(Func<Employee, bool> filterCriteria);
+        Task<IQueryable<Employee>> GetAsync(EmployeeFilter employeeFilter);
         Task AddAsync(Employee entity);
         Task UpdateAsync(Employee entity);
         Task DeleteAsync(Employee entity);

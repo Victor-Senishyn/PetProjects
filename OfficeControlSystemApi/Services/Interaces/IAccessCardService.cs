@@ -5,7 +5,7 @@ namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IAccessCardService
     {
-        Task<AccessCardDto> CreateAccessCardDtoAsync(Employee employee);
+        Task<AccessCardDto> CreateAccessCardAsync(EmployeeDto employeeDto);
         Task<AccessCardDto> GetAccessCardByIdAsync(long id);
     }
 }

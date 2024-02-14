@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Data;
+using OfficeControlSystemApi.Data.Filters;
 using OfficeControlSystemApi.Data.Repositorys;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.DTOs;
@@ -16,26 +17,25 @@ namespace OfficeControlSystemApi.Services
             _accessCardRepository = new AccessCardRepository(context);
         }
 
-        public async Task<AccessCardDto> CreateAccessCardDtoAsync(Employee employee)
+        public async Task<AccessCardDto> CreateAccessCardAsync(EmployeeDto employee)
         {
             var newAccessCard = new AccessCard
             {
                 AccessLevel = AccessLevel.Low,
-                VisitHistories = new List<VisitHistory>(),
-                Employee = employee
+                EmployeeId = employee.Id
             };
 
             await _accessCardRepository.AddAsync(newAccessCard);
 
             return new AccessCardDto(){
-                Id = newAccessCard.Id,
                 AccessLevel = AccessLevel.Low,
+                Id = newAccessCard.Id
             };
         }
 
         public async Task<AccessCardDto> GetAccessCardByIdAsync(long id)
         {
-            var accessCard = (await _accessCardRepository.Get(accessCard => accessCard.Id == id)).SingleOrDefault();
+            var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = id} )).SingleOrDefault();
 
             if (accessCard == null)
                 throw new ArgumentException($"Access Card by Id {id} not found");

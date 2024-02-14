@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services;
 using OfficeControlSystemApi.Services.Interaces;
 
@@ -24,13 +25,13 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("employee")]
-        public async Task<IActionResult> CreateEmployee([FromBody] Employee employeeInput)
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput)
         {
             try
             {
-                var newEmployee = await _employeeService.CreateEmployeeDtoAsync(employeeInput);
-                var newAccessCard = await _accessCardService.CreateAccessCardDtoAsync(employeeInput);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryDtoAsync(newAccessCard);
+                var newEmployee = await _employeeService.CreateEmployeeAsync(employeeInput);
+                var newAccessCard = await _accessCardService.CreateAccessCardAsync(employeeInput);
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
 
                 return Ok(newEmployee);
             }
@@ -60,7 +61,7 @@ namespace OfficeControlSystemApi.Controllers
             try
             {
                 var newAccessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryDtoAsync(newAccessCard);
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
 
                 return Ok(newVisitHistory);
             }

@@ -1,11 +1,12 @@
-﻿using OfficeControlSystemApi.Models;
+﻿using OfficeControlSystemApi.Data.Filters;
+using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.Interface;
 
-namespace OfficeControlSystemApi.Data
+namespace OfficeControlSystemApi.Data.Interfaces
 {
     public interface IVisitHistoryRepository
     {
-        Task<IEnumerable<VisitHistory>> Get(Func<VisitHistory, bool> filterCriteria);
+        Task<IQueryable<VisitHistory>> GetAsync(VisitHistoryFilter visitHistoryFilter);
         Task AddAsync(VisitHistory entity);
         Task UpdateAsync(VisitHistory entity);
         Task DeleteAsync(VisitHistory entity);
