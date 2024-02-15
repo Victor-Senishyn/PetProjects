@@ -17,6 +17,7 @@ namespace OfficeControlSystemApi.Controllers
         private readonly AccessCardService _accessCardService;
         private readonly VisitHistoryService _visitHistoryService;
 
+
         public OfficeControlSystemController(AppDbContext context)
         {
             _employeeService = new EmployeeService(context);
@@ -25,13 +26,13 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("employee")]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput)
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput, CancellationToken cancellationToken)
         {
             try
             {
-                var newEmployee = await _employeeService.CreateEmployeeAsync(employeeInput);
-                var newAccessCard = await _accessCardService.CreateAccessCardAsync(employeeInput);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
+                var newEmployee = await _employeeService.CreateEmployeeAsync(employeeInput, cancellationToken);
+                var newAccessCard = await _accessCardService.CreateAccessCardAsync(employeeInput, cancellationToken);
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard, cancellationToken);
 
                 return Ok(newEmployee);
             }
@@ -39,35 +40,47 @@ namespace OfficeControlSystemApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
+            {
+                return BadRequest("Request canceled due to user action or timeout."); //maybe not ok
+            }
         }
 
         [HttpPut("exit/{visitHistoryId}")]
-        public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId)
+        public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId, CancellationToken cancellationToken)
         {
             try
             {
-                var newVisitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId);
+                var newVisitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId, cancellationToken);
                 return Ok(newVisitHistory);
             }
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
+            {
+                return BadRequest("Request canceled due to user action or timeout."); //maybe not ok
             }
         }
 
         [HttpPost("visit/{accessCardId}")]
-        public async Task<IActionResult> AddVisitHistory(long accessCardId)
+        public async Task<IActionResult> AddVisitHistory(long accessCardId, CancellationToken cancellationToken)
         {
             try
             {
-                var newAccessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard);
+                var newAccessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId, cancellationToken);
+                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard, cancellationToken);
 
                 return Ok(newVisitHistory);
             }
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch(Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
+            {
+                return BadRequest("Request canceled due to user action or timeout.");
             }
         }
     }

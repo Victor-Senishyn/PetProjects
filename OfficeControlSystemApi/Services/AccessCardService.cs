@@ -17,7 +17,7 @@ namespace OfficeControlSystemApi.Services
             _accessCardRepository = new AccessCardRepository(context);
         }
 
-        public async Task<AccessCardDto> CreateAccessCardAsync(EmployeeDto employee)
+        public async Task<AccessCardDto> CreateAccessCardAsync(EmployeeDto employee, CancellationToken cancellationToken = default)
         {
             var newAccessCard = new AccessCard
             {
@@ -33,7 +33,7 @@ namespace OfficeControlSystemApi.Services
             };
         }
 
-        public async Task<AccessCardDto> GetAccessCardByIdAsync(long id)
+        public async Task<AccessCardDto> GetAccessCardByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = id} )).SingleOrDefault();
 

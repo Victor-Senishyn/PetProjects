@@ -5,7 +5,7 @@ namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IVisitHistoryService
     {
-        Task<VisitHistoryDto> CreateVisitHistoryAsync(AccessCardDto accessCardDto);
-        Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId);
+        Task<VisitHistoryDto> CreateVisitHistoryAsync(AccessCardDto accessCardDto, CancellationToken cancellationToken);
+        Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId, CancellationToken cancellationToken);
     }
 }
