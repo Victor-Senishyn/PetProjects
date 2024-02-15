@@ -12,6 +12,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IAccessCardService, AccessCardService>();
+builder.Services.AddScoped<IVisitHistoryService, VisitHistoryService>();
+
+builder.Services.AddScoped<IScopedService, EmployeeService>();
+builder.Services.AddScoped<IScopedService, AccessCardService>();
+builder.Services.AddScoped<IScopedService, VisitHistoryService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

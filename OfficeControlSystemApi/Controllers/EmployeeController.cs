@@ -2,20 +2,29 @@
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services;
+using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly EmployeeService _employeeService;
-        private readonly AccessCardService _accessCardService;
-        private readonly VisitHistoryService _visitHistoryService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IAccessCardService _accessCardService;
+        private readonly IVisitHistoryService _visitHistoryService;
+        private readonly IScopedService _scoped;
 
-        public EmployeeController(AppDbContext context)
+        public EmployeeController(
+            IEmployeeService employeeService, 
+            IAccessCardService accessCardService, 
+            IVisitHistoryService visitHistoryService,
+            IScopedService scoped
+            )
         {
-            _employeeService = new EmployeeService(context);
-            _accessCardService = new AccessCardService(context);
-            _visitHistoryService = new VisitHistoryService(context);
+            _employeeService = employeeService;
+            _accessCardService = accessCardService;
+            _visitHistoryService = visitHistoryService;
+
+            _scoped = scoped;
         }
 
         [HttpPost("employee")]

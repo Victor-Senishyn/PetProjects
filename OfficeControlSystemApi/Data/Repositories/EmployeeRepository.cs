@@ -39,7 +39,6 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task UpdateAsync(Employee entity)
         {
-            _dbContext.Set<Employee>().Update(entity);
             await _dbContext.SaveChangesAsync();
         }
 

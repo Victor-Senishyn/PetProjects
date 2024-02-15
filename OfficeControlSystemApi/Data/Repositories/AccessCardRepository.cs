@@ -39,13 +39,11 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task UpdateAsync(AccessCard entity)
         {
-            _dbContext.Set<AccessCard>().Update(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(AccessCard entity)
         {
-
             _dbContext.Set<AccessCard>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }

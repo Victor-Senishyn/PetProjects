@@ -1,6 +1,8 @@
-﻿namespace OfficeControlSystemApi.Models.DTOs
+﻿using OfficeControlSystemApi.Models.Interface;
+
+namespace OfficeControlSystemApi.Models.DTOs
 {
-    public class VisitHistoryDto
+    public class VisitHistoryDto : IEntity
     {
         public long Id { get; set; }
         public long AccessCardId { get; set; }

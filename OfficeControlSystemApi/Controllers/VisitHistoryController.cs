@@ -1,18 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Services;
+using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Controllers
 {
     public class VisitHistoryController : Controller
     {
-        private readonly AccessCardService _accessCardService;
-        private readonly VisitHistoryService _visitHistoryService;
+        private readonly IAccessCardService _accessCardService;
+        private readonly IVisitHistoryService _visitHistoryService;
+        private readonly IScopedService _scoped;
 
-        public VisitHistoryController(AppDbContext context)
+        public VisitHistoryController(
+            IAccessCardService accessCardService,
+            IVisitHistoryService visitHistoryService,
+            IScopedService scoped)
         {
-            _accessCardService = new AccessCardService(context);
-            _visitHistoryService = new VisitHistoryService(context);
+            _accessCardService = accessCardService;
+            _visitHistoryService = visitHistoryService;
+            _scoped = scoped;
         }
 
         [HttpPut("exit/{visitHistoryId}")]

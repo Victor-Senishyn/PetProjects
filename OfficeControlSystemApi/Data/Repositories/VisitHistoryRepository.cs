@@ -41,7 +41,6 @@ namespace OfficeControlSystemApi.Data.Repositorys
 
         public async Task UpdateAsync(VisitHistory entity)
         {
-            _dbContext.Set<VisitHistory>().Update(entity);
             await _dbContext.SaveChangesAsync();
         }
 

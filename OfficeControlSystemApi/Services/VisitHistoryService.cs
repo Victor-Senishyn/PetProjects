@@ -9,9 +9,10 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
-    public class VisitHistoryService : IVisitHistoryService
+    public class VisitHistoryService : IVisitHistoryService, IScopedService
     {
         private readonly VisitHistoryRepository _visitHistoryRepository;
+        public string ServiceUniqueIdentifier { get; } = Guid.NewGuid().ToString();
 
         public VisitHistoryService(AppDbContext context)
         {
@@ -23,20 +24,20 @@ namespace OfficeControlSystemApi.Services
             if (accessCard == null)
                 throw new ArgumentException($"AccessCard with id {accessCard} not found");
 
-            var newVisitHistory = new VisitHistory
+            var visitHistory = new VisitHistory
             {
                 AccessCardId = accessCard.Id,
                 VisitDateTime = DateTimeOffset.UtcNow
             };
             
-            await _visitHistoryRepository.AddAsync(newVisitHistory);
+            await _visitHistoryRepository.AddAsync(visitHistory);
             
             return new VisitHistoryDto()
             {
-                Id = newVisitHistory.Id,
-                AccessCardId = newVisitHistory.AccessCardId,
-                VisitDateTime = newVisitHistory.VisitDateTime,
-                ExitDateTime = newVisitHistory.ExitDateTime
+                Id = visitHistory.Id,
+                AccessCardId = visitHistory.AccessCardId,
+                VisitDateTime = visitHistory.VisitDateTime,
+                ExitDateTime = visitHistory.ExitDateTime
             };
         }
 
