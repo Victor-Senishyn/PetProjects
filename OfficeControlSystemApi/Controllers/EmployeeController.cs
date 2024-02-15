@@ -37,12 +37,12 @@ namespace OfficeControlSystemApi.Controllers
 
             try
             {
-                var newEmployee = await _employeeService.CreateEmployeeAsync(employeeInput, cancellationToken);
-                var newAccessCard = await _accessCardService.CreateAccessCardAsync(employeeInput, cancellationToken);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard, cancellationToken);
+                var employee = await _employeeService.CreateEmployeeAsync(employeeInput, cancellationToken);
+                var accessCard = await _accessCardService.CreateAccessCardAsync(employeeInput, cancellationToken);
+                var visitHistory = await _visitHistoryService.CreateVisitHistoryAsync(accessCard, cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
-                return Ok(newEmployee);
+                return Ok(employee);
             }
             catch (ArgumentException ex)
             {

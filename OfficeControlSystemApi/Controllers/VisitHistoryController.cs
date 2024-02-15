@@ -26,8 +26,8 @@ namespace OfficeControlSystemApi.Controllers
         {
             try
             {
-                var newVisitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId, cancellationToken);
-                return Ok(newVisitHistory);
+                var visitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId, cancellationToken);
+                return Ok(visitHistory);
             }
             catch (ArgumentException ex)
             {
@@ -44,10 +44,10 @@ namespace OfficeControlSystemApi.Controllers
         {
             try
             {
-                var newAccessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId, cancellationToken);
-                var newVisitHistory = await _visitHistoryService.CreateVisitHistoryAsync(newAccessCard, cancellationToken);
+                var accessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId, cancellationToken);
+                var visitHistory = await _visitHistoryService.CreateVisitHistoryAsync(accessCard, cancellationToken);
 
-                return Ok(newVisitHistory);
+                return Ok(visitHistory);
             }
             catch (ArgumentException ex)
             {
