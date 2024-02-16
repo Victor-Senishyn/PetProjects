@@ -1,0 +1,11 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.DTOs;
+
+namespace OfficeControlSystemApi.Services.Interaces
+{
+    public interface IEmployeeService
+    {
+        Task<EmployeeDto> CreateEmployeeAsync(EmployeeDto employeeDto, CancellationToken cancellationToken);
+    }
+}
