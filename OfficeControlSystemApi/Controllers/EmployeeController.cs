@@ -11,7 +11,6 @@ namespace OfficeControlSystemApi.Controllers
         private readonly IEmployeeService _employeeService;
         private readonly IAccessCardService _accessCardService;
         private readonly IVisitHistoryService _visitHistoryService;
-        private readonly IScopedService _scoped;
         private readonly AppDbContext _dbContext;
 
 
@@ -19,14 +18,12 @@ namespace OfficeControlSystemApi.Controllers
             IEmployeeService employeeService, 
             IAccessCardService accessCardService, 
             IVisitHistoryService visitHistoryService,
-            IScopedService scoped,
             AppDbContext dbContext
             )
         {
             _employeeService = employeeService;
             _accessCardService = accessCardService;
             _visitHistoryService = visitHistoryService;
-            _scoped = scoped;
             _dbContext = dbContext;
         }
 

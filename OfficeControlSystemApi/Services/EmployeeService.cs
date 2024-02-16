@@ -6,10 +6,9 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
-    public class EmployeeService : IEmployeeService, IScopedService
+    public class EmployeeService : IEmployeeService
     {
         private readonly EmployeeRepository _employeeRepository;
-        public string ServiceUniqueIdentifier { get; } = Guid.NewGuid().ToString();
 
         public EmployeeService(AppDbContext context)
         {

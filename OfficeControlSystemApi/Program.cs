@@ -16,9 +16,9 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAccessCardService, AccessCardService>();
 builder.Services.AddScoped<IVisitHistoryService, VisitHistoryService>();
 
-builder.Services.AddScoped<IScopedService, EmployeeService>();
-builder.Services.AddScoped<IScopedService, AccessCardService>();
-builder.Services.AddScoped<IScopedService, VisitHistoryService>();
+//builder.Services.AddScoped<IScopedService, EmployeeService>();
+//builder.Services.AddScoped<IScopedService, AccessCardService>();
+//builder.Services.AddScoped<IScopedService, VisitHistoryService>();
 
 var app = builder.Build();
 

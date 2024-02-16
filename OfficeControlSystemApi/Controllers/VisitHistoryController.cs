@@ -9,16 +9,13 @@ namespace OfficeControlSystemApi.Controllers
     {
         private readonly IAccessCardService _accessCardService;
         private readonly IVisitHistoryService _visitHistoryService;
-        private readonly IScopedService _scoped;
 
         public VisitHistoryController(
             IAccessCardService accessCardService,
-            IVisitHistoryService visitHistoryService,
-            IScopedService scoped)
+            IVisitHistoryService visitHistoryService)
         {
             _accessCardService = accessCardService;
             _visitHistoryService = visitHistoryService;
-            _scoped = scoped;
         }
 
         [HttpPut("exit/{visitHistoryId}")]

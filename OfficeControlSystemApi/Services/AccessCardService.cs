@@ -8,10 +8,9 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
-    public class AccessCardService : IAccessCardService, IScopedService
+    public class AccessCardService : IAccessCardService
     {
         private readonly AccessCardRepository _accessCardRepository;
-        public string ServiceUniqueIdentifier { get; } = Guid.NewGuid().ToString();
 
         public AccessCardService(AppDbContext context)
         {

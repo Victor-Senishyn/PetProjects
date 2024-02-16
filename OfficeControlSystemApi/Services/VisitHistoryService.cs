@@ -9,10 +9,9 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services
 {
-    public class VisitHistoryService : IVisitHistoryService, IScopedService
+    public class VisitHistoryService : IVisitHistoryService
     {
         private readonly VisitHistoryRepository _visitHistoryRepository;
-        public string ServiceUniqueIdentifier { get; } = Guid.NewGuid().ToString();
 
         public VisitHistoryService(AppDbContext context)
         {
