@@ -9,13 +9,16 @@ namespace OfficeControlSystemApi.Controllers
     {
         private readonly IAccessCardService _accessCardService;
         private readonly IVisitHistoryService _visitHistoryService;
+        private readonly AppDbContext _dbContext;
 
         public VisitHistoryController(
             IAccessCardService accessCardService,
-            IVisitHistoryService visitHistoryService)
+            IVisitHistoryService visitHistoryService,
+            AppDbContext dbContext)
         {
             _accessCardService = accessCardService;
             _visitHistoryService = visitHistoryService;
+            _dbContext = dbContext;
         }
 
         [HttpPut("exit/{visitHistoryId}")]
@@ -24,6 +27,8 @@ namespace OfficeControlSystemApi.Controllers
             try
             {
                 var visitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId, cancellationToken);
+                await _dbContext.SaveChangesAsync();
+
                 return Ok(visitHistory);
             }
             catch (ArgumentException ex)
@@ -43,6 +48,7 @@ namespace OfficeControlSystemApi.Controllers
             {
                 var accessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId, cancellationToken);
                 var visitHistory = await _visitHistoryService.CreateVisitHistoryAsync(accessCard, cancellationToken);
+                await _dbContext.SaveChangesAsync();
 
                 return Ok(visitHistory);
             }

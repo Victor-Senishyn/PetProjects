@@ -33,14 +33,14 @@ namespace OfficeControlSystemApi.Data.Repositorys
             return query;
         }
 
-        public async Task AddAsync(VisitHistory entity)
+        public async Task CommitAsync()
         {
-            await _dbContext.Set<VisitHistory>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(VisitHistory entity)
+        public async Task AddAsync(VisitHistory entity)
         {
+            await _dbContext.Set<VisitHistory>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 

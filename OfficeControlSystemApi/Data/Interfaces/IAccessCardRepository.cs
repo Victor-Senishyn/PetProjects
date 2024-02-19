@@ -7,7 +7,7 @@ namespace OfficeControlSystemApi.Data.Interfaces
     {
         Task<IQueryable<AccessCard>> GetAsync(AccessCardFilter accessCardFilter);
         Task AddAsync(AccessCard entity);
-        Task UpdateAsync(AccessCard entity);
+        Task CommitAsync();
         Task DeleteAsync(AccessCard entity);
     }
 }

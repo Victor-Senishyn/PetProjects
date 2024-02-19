@@ -30,7 +30,7 @@ namespace OfficeControlSystemApi.Services
             };
             
             await _visitHistoryRepository.AddAsync(visitHistory);
-            
+
             return new VisitHistoryDto()
             {
                 Id = visitHistory.Id,
@@ -48,8 +48,6 @@ namespace OfficeControlSystemApi.Services
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");
 
             visitHistory.ExitDateTime = DateTimeOffset.UtcNow;
-
-            _visitHistoryRepository.UpdateAsync(visitHistory);
 
             return new VisitHistoryDto()
             {

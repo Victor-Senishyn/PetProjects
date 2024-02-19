@@ -8,7 +8,7 @@ namespace OfficeControlSystemApi.Data.Interfaces
     {
         Task<IQueryable<Employee>> GetAsync(EmployeeFilter employeeFilter);
         Task AddAsync(Employee entity);
-        Task UpdateAsync(Employee entity);
+        Task CommitAsync();
         Task DeleteAsync(Employee entity);
     }
 }
