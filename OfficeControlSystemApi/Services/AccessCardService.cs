@@ -26,6 +26,7 @@ namespace OfficeControlSystemApi.Services
             };
 
             await _accessCardRepository.AddAsync(newAccessCard);
+            await _accessCardRepository.CommitAsync();
 
             return new AccessCardDto(){
                 AccessLevel = AccessLevel.Low,

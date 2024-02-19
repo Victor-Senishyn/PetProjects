@@ -9,25 +9,10 @@ namespace OfficeControlSystemApi.Controllers
 {
     public class EmployeeController : Controller
     {
-        //private readonly IEmployeeService _employeeService;
-        //private readonly IAccessCardService _accessCardService;
-        //private readonly IVisitHistoryService _visitHistoryService;
-        //private readonly AppDbContext _dbContext;
-
         private readonly CreateEmployeeCommand _createEmployeeCommand;
 
-        public EmployeeController(
-            //IEmployeeService employeeService, 
-            //IAccessCardService accessCardService, 
-            //IVisitHistoryService visitHistoryService,
-            //AppDbContext dbContext,
-            CreateEmployeeCommand createEmployeeCommand
-            )
+        public EmployeeController(CreateEmployeeCommand createEmployeeCommand)
         {
-            //_employeeService = employeeService;
-            //_accessCardService = accessCardService;
-            //_visitHistoryService = visitHistoryService;
-            //_dbContext = dbContext;
             _createEmployeeCommand = createEmployeeCommand;
         }
 

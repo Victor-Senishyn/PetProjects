@@ -27,6 +27,7 @@ namespace OfficeControlSystemApi.Services
             };
 
             await _employeeRepository.AddAsync(employee);
+            await _employeeRepository.CommitAsync();
 
             employeeDto.Id = employee.Id;
 

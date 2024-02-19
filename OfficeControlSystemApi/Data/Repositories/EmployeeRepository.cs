@@ -38,13 +38,11 @@ namespace OfficeControlSystemApi.Data.Repositorys
         public async Task AddAsync(Employee entity)
         {
             await _dbContext.Set<Employee>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Employee entity)
         {
             _dbContext.Set<Employee>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

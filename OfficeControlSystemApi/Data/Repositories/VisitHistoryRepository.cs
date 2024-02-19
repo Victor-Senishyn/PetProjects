@@ -41,13 +41,11 @@ namespace OfficeControlSystemApi.Data.Repositorys
         public async Task AddAsync(VisitHistory entity)
         {
             await _dbContext.Set<VisitHistory>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(VisitHistory entity)
         {
             _dbContext.Set<VisitHistory>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
         }
     }
 }
