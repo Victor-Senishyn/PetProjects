@@ -4,6 +4,8 @@ using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Services.Interaces;
 using OfficeControlSystemApi.Services;
 using OfficeControlSystemApi.Services.Commands;
+using OfficeControlSystemApi.Data.Interfaces;
+using OfficeControlSystemApi.Data.Repositorys;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,13 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAccessCardService, AccessCardService>();
 builder.Services.AddScoped<IVisitHistoryService, VisitHistoryService>();
 
-builder.Services.AddTransient<CreateEmployeeCommand>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IAccessCardRepository, AccessCardRepository>();
+builder.Services.AddScoped<IVisitHistoryRepository, VisitHistoryRepository>();
+
+builder.Services.AddScoped<CreateEmployeeCommand>();
+builder.Services.AddScoped<CreateVisitHistoryCommand>();
+
 
 var app = builder.Build();
 

@@ -21,9 +21,9 @@ namespace OfficeControlSystemApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccessCard>()
-                .HasOne(ac => ac.Employee)         
-                .WithMany()         
-                .HasForeignKey(ac => ac.EmployeeId); 
+                .HasOne<Employee>()
+                .WithMany(e => e.AccessCards)
+                .HasForeignKey(ac => ac.EmployeeId);
         }
 
         public DbSet<Employee> Employees { get; set; }

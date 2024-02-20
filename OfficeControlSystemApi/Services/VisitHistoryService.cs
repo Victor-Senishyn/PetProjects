@@ -28,7 +28,7 @@ namespace OfficeControlSystemApi.Services
                 AccessCardId = accessCard.Id,
                 VisitDateTime = DateTimeOffset.UtcNow
             };
-            
+
             await _visitHistoryRepository.AddAsync(visitHistory);
 
             return new VisitHistoryDto()

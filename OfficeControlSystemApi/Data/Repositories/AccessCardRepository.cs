@@ -41,7 +41,6 @@ namespace OfficeControlSystemApi.Data.Repositorys
             await _dbContext.Set<AccessCard>().AddAsync(entity);
         }
 
-
         public async Task DeleteAsync(AccessCard entity)
         {
             _dbContext.Set<AccessCard>().Remove(entity);

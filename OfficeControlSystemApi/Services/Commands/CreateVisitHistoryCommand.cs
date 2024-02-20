@@ -1,44 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Data.Interfaces;
-using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services.Interaces;
+using OfficeControlSystemApi.Data.Filters;
+using OfficeControlSystemApi.Models;
 
 namespace OfficeControlSystemApi.Services.Commands
 {
-    public class CreateEmployeeCommand : Command
+    public class CreateVisitHistoryCommand : Command
     {
         private readonly AppDbContext _dbContext;
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IAccessCardRepository _accessCardRepository;
 
 
-        public CreateEmployeeCommand(
+        public CreateVisitHistoryCommand(
             AppDbContext dbContext,
-            IEmployeeRepository employeeRepository
+            IAccessCardRepository accessCardRepository
             )
         {
             _dbContext = dbContext;
-            _employeeRepository = employeeRepository;
+            _accessCardRepository = accessCardRepository;
         }
 
-        public async Task<IActionResult> ExecuteAsync(EmployeeDto employeeDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> ExecuteAsync(long accessCardId, CancellationToken cancellationToken)
         {
             using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
 
             try
             {
-                var employee = new Employee()
-                {
-                    FirstName = employeeDto.FirstName,
-                    LastName = employeeDto.LastName,
-                };
+                var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = accessCardId })).SingleOrDefault();
 
-                var accessCard = new AccessCard
-                {
-                    AccessLevel = AccessLevel.Low,
-                    EmployeeId = employee.Id
-                };
+                if (accessCard == null)
+                    throw new ArgumentException($"Access Card by Id {accessCardId} not found");
 
                 var visitHistory = new VisitHistory
                 {
@@ -47,15 +41,16 @@ namespace OfficeControlSystemApi.Services.Commands
                 };
 
                 accessCard.VisitHistories.Add( visitHistory );
-                employee.AccessCards.Add( accessCard );
+                await _accessCardRepository.AddAsync( accessCard );
+                await _accessCardRepository.CommitAsync();
 
-                await _employeeRepository.AddAsync(employee);
-
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync(cancellationToken);
-                employeeDto.Id = employee.Id;
-
-                return new OkObjectResult(employeeDto);
+                return new OkObjectResult(new VisitHistoryDto
+                {
+                    Id = visitHistory.Id,
+                    AccessCardId = visitHistory.AccessCardId,
+                    VisitDateTime = visitHistory.VisitDateTime,
+                    ExitDateTime = visitHistory.ExitDateTime
+                });
             }
             catch (ArgumentException ex)
             {
@@ -68,5 +63,4 @@ namespace OfficeControlSystemApi.Services.Commands
             }
         }
     }
-
 }
