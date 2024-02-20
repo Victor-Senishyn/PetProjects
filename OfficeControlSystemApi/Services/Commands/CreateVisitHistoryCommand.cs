@@ -8,7 +8,7 @@ using OfficeControlSystemApi.Models;
 
 namespace OfficeControlSystemApi.Services.Commands
 {
-    public class CreateVisitHistoryCommand : Command
+    public class CreateVisitHistoryCommand : ICreateVisitHistoryCommand
     {
         private readonly AppDbContext _dbContext;
         private readonly IAccessCardRepository _accessCardRepository;
@@ -41,16 +41,17 @@ namespace OfficeControlSystemApi.Services.Commands
                 };
 
                 accessCard.VisitHistories.Add( visitHistory );
-                await _accessCardRepository.AddAsync( accessCard );
                 await _accessCardRepository.CommitAsync();
 
-                return new OkObjectResult(new VisitHistoryDto
+                var visitHistoryDto = new VisitHistoryDto
                 {
                     Id = visitHistory.Id,
                     AccessCardId = visitHistory.AccessCardId,
                     VisitDateTime = visitHistory.VisitDateTime,
                     ExitDateTime = visitHistory.ExitDateTime
-                });
+                };
+
+                return new OkObjectResult(visitHistoryDto);
             }
             catch (ArgumentException ex)
             {

@@ -23,8 +23,8 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAccessCardRepository, AccessCardRepository>();
 builder.Services.AddScoped<IVisitHistoryRepository, VisitHistoryRepository>();
 
-builder.Services.AddScoped<CreateEmployeeCommand>();
-builder.Services.AddScoped<CreateVisitHistoryCommand>();
+builder.Services.AddScoped<ICreateEmployeeCommand, CreateEmployeeCommand>();
+builder.Services.AddScoped<ICreateVisitHistoryCommand, CreateVisitHistoryCommand>();
 
 
 var app = builder.Build();

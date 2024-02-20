@@ -1,27 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Services;
+using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Controllers
 {
     public class VisitHistoryController : Controller
     {
-        private readonly IAccessCardService _accessCardService;
         private readonly IVisitHistoryService _visitHistoryService;
+        private readonly ICreateVisitHistoryCommand _createVisitHistoryCommand;
         private readonly AppDbContext _dbContext;
 
         public VisitHistoryController(
-            IAccessCardService accessCardService,
             IVisitHistoryService visitHistoryService,
+            ICreateVisitHistoryCommand createVisitHistoryCommand,
             AppDbContext dbContext)
         {
-            _accessCardService = accessCardService;
             _visitHistoryService = visitHistoryService;
+            _createVisitHistoryCommand = createVisitHistoryCommand;
             _dbContext = dbContext;
         }
 
-        [HttpPut("exit/{visitHistoryId}")]
+        [HttpPatch("exit/{visitHistoryId}")]
         public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId, CancellationToken cancellationToken)
         {
             try
@@ -44,22 +45,7 @@ namespace OfficeControlSystemApi.Controllers
         [HttpPost("visit/{accessCardId}")]
         public async Task<IActionResult> AddVisitHistory(long accessCardId, CancellationToken cancellationToken)
         {
-            try
-            {
-                var accessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId, cancellationToken);
-                var visitHistory = await _visitHistoryService.CreateVisitHistoryAsync(accessCard, cancellationToken);
-                await _dbContext.SaveChangesAsync();
-
-                return Ok(visitHistory);
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
-            {
-                return BadRequest("Request canceled due to user action or timeout.");
-            }
+            return await _createVisitHistoryCommand.ExecuteAsync(accessCardId, cancellationToken);
         }
     }
 }

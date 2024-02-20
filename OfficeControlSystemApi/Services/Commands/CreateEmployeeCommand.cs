@@ -7,7 +7,7 @@ using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services.Commands
 {
-    public class CreateEmployeeCommand : Command
+    public class CreateEmployeeCommand : ICreateEmployeeCommand
     {
         private readonly AppDbContext _dbContext;
         private readonly IEmployeeRepository _employeeRepository;

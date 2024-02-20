@@ -9,9 +9,9 @@ namespace OfficeControlSystemApi.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly CreateEmployeeCommand _createEmployeeCommand;
+        private readonly ICreateEmployeeCommand _createEmployeeCommand;
 
-        public EmployeeController(CreateEmployeeCommand createEmployeeCommand)
+        public EmployeeController(ICreateEmployeeCommand createEmployeeCommand)
         {
             _createEmployeeCommand = createEmployeeCommand;
         }
