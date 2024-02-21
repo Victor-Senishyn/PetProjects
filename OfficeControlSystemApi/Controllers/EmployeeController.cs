@@ -18,12 +18,12 @@ namespace OfficeControlSystemApi.Controllers
             _createEmployeeCommand = createEmployeeCommand;
         }
 
-        [HttpPost("employee")]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput, CancellationToken cancellationToken)
+        [HttpPost("employee/{accessLevel}")]
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput, int accessLevel, CancellationToken cancellationToken)
         {
             try
             {
-                return new OkObjectResult(await _createEmployeeCommand.ExecuteAsync(employeeInput, cancellationToken));
+                return new OkObjectResult(await _createEmployeeCommand.ExecuteAsync(employeeInput, accessLevel, cancellationToken));
             }
             catch (ArgumentException ex)
             {

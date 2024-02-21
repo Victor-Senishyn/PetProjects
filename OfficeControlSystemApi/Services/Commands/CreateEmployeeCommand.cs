@@ -9,20 +9,17 @@ namespace OfficeControlSystemApi.Services.Commands
 {
     public class CreateEmployeeCommand : ICreateEmployeeCommand
     {
-        private readonly AppDbContext _dbContext;
         private readonly IEmployeeRepository _employeeRepository;
 
 
         public CreateEmployeeCommand(
-            AppDbContext dbContext,
             IEmployeeRepository employeeRepository
             )
         {
-            _dbContext = dbContext;
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<EmployeeDto> ExecuteAsync(EmployeeDto employeeDto, CancellationToken cancellationToken)
+        public async Task<EmployeeDto> ExecuteAsync(EmployeeDto employeeDto, int accessLevel, CancellationToken cancellationToken)
         {
             var employee = new Employee()
             {
@@ -30,9 +27,12 @@ namespace OfficeControlSystemApi.Services.Commands
                 LastName = employeeDto.LastName,
             };
 
+            if (accessLevel < 0 || accessLevel > 3)
+                throw new ArgumentException("Wrong access level");
+
             var accessCard = new AccessCard
             {
-                AccessLevel = AccessLevel.Low,
+                AccessLevel = (AccessLevel)accessLevel,
                 EmployeeId = employee.Id
             };
 

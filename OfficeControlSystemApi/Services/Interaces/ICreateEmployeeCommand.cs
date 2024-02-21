@@ -5,6 +5,6 @@ namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface ICreateEmployeeCommand
     {
-        Task<EmployeeDto> ExecuteAsync(EmployeeDto employeeDto, CancellationToken cancellationToken);
+        Task<EmployeeDto> ExecuteAsync(EmployeeDto employeeDto, int accessLevel, CancellationToken cancellationToken);
     }
 }
