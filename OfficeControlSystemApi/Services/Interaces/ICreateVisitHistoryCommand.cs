@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OfficeControlSystemApi.Models.DTOs;
 
 namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface ICreateVisitHistoryCommand
     {
-        Task<IActionResult> ExecuteAsync(long accessCardId, CancellationToken cancellationToken);
+        Task<VisitHistoryDto> ExecuteAsync(long accessCardId, CancellationToken cancellationToken);
     }
 }

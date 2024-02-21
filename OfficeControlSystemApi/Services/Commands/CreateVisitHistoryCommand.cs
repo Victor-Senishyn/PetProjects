@@ -23,12 +23,9 @@ namespace OfficeControlSystemApi.Services.Commands
             _accessCardRepository = accessCardRepository;
         }
 
-        public async Task<IActionResult> ExecuteAsync(long accessCardId, CancellationToken cancellationToken)
+        public async Task<VisitHistoryDto> ExecuteAsync(long accessCardId, CancellationToken cancellationToken)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-
-            try
-            {
+            
                 var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = accessCardId })).SingleOrDefault();
 
                 if (accessCard == null)
@@ -51,17 +48,8 @@ namespace OfficeControlSystemApi.Services.Commands
                     ExitDateTime = visitHistory.ExitDateTime
                 };
 
-                return new OkObjectResult(visitHistoryDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
-            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
-            {
-                await transaction.RollbackAsync(cancellationToken);
-                return new BadRequestObjectResult("Request canceled due to user action or timeout.");
-            }
+                return visitHistoryDto;
+            
         }
     }
 }

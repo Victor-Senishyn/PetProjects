@@ -30,6 +30,7 @@ namespace OfficeControlSystemApi.Services
             };
 
             await _visitHistoryRepository.AddAsync(visitHistory);
+            await _visitHistoryRepository.CommitAsync();
 
             return new VisitHistoryDto()
             {
@@ -42,12 +43,15 @@ namespace OfficeControlSystemApi.Services
 
         public async Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId, CancellationToken cancellationToken = default)
         {
-            var visitHistory = (await _visitHistoryRepository.GetAsync(new VisitHistoryFilter() { Id = visitHistoryId })).SingleOrDefault();
+            var visitHistory = (await _visitHistoryRepository.GetAsync(
+                new VisitHistoryFilter() { 
+                Id = visitHistoryId })).SingleOrDefault();
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");
 
             visitHistory.ExitDateTime = DateTimeOffset.UtcNow;
+            await _visitHistoryRepository.CommitAsync();
 
             return new VisitHistoryDto()
             {
