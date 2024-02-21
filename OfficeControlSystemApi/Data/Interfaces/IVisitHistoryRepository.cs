@@ -8,7 +8,7 @@ namespace OfficeControlSystemApi.Data.Interfaces
     {
         Task<IQueryable<VisitHistory>> GetAsync(VisitHistoryFilter visitHistoryFilter);
         Task AddAsync(VisitHistory entity);
-        Task UpdateAsync(VisitHistory entity);
+        Task CommitAsync();
         Task DeleteAsync(VisitHistory entity);
     }
 }

@@ -1,24 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Services;
+using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Controllers
 {
     public class VisitHistoryController : Controller
     {
-        private readonly IAccessCardService _accessCardService;
         private readonly IVisitHistoryService _visitHistoryService;
+        private readonly ICreateVisitHistoryCommand _createVisitHistoryCommand;
 
         public VisitHistoryController(
-            IAccessCardService accessCardService,
-            IVisitHistoryService visitHistoryService)
+            IVisitHistoryService visitHistoryService,
+            ICreateVisitHistoryCommand createVisitHistoryCommand)
         {
-            _accessCardService = accessCardService;
             _visitHistoryService = visitHistoryService;
+            _createVisitHistoryCommand = createVisitHistoryCommand;
         }
 
-        [HttpPut("exit/{visitHistoryId}")]
+        [HttpPatch("exit/{visitHistoryId}")]
         public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId, CancellationToken cancellationToken)
         {
             try
@@ -41,18 +42,11 @@ namespace OfficeControlSystemApi.Controllers
         {
             try
             {
-                var accessCard = await _accessCardService.GetAccessCardByIdAsync(accessCardId, cancellationToken);
-                var visitHistory = await _visitHistoryService.CreateVisitHistoryAsync(accessCard, cancellationToken);
-
-                return Ok(visitHistory);
+                return new OkObjectResult(await _createVisitHistoryCommand.ExecuteAsync(accessCardId, cancellationToken));
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
-            {
-                return BadRequest("Request canceled due to user action or timeout.");
+                return new BadRequestObjectResult(ex.Message);
             }
         }
     }

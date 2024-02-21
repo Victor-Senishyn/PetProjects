@@ -18,38 +18,17 @@ namespace OfficeControlSystemApi.Services
             _visitHistoryRepository = new VisitHistoryRepository(context);
         }
 
-        public async Task<VisitHistoryDto> CreateVisitHistoryAsync(AccessCardDto accessCard, CancellationToken cancellationToken = default)
-        {
-            if (accessCard == null)
-                throw new ArgumentException($"AccessCard with id {accessCard} not found");
-
-            var visitHistory = new VisitHistory
-            {
-                AccessCardId = accessCard.Id,
-                VisitDateTime = DateTimeOffset.UtcNow
-            };
-            
-            await _visitHistoryRepository.AddAsync(visitHistory);
-            
-            return new VisitHistoryDto()
-            {
-                Id = visitHistory.Id,
-                AccessCardId = visitHistory.AccessCardId,
-                VisitDateTime = visitHistory.VisitDateTime,
-                ExitDateTime = visitHistory.ExitDateTime
-            };
-        }
-
         public async Task<VisitHistoryDto> UpdateExitDateTime(long visitHistoryId, CancellationToken cancellationToken = default)
         {
-            var visitHistory = (await _visitHistoryRepository.GetAsync(new VisitHistoryFilter() { Id = visitHistoryId })).SingleOrDefault();
+            var visitHistory = (await _visitHistoryRepository.GetAsync(
+                new VisitHistoryFilter() { 
+                Id = visitHistoryId })).SingleOrDefault();
 
             if (visitHistory == null)
                 throw new ArgumentException($"AccessHistory with id {visitHistoryId} not found");
 
             visitHistory.ExitDateTime = DateTimeOffset.UtcNow;
-
-            _visitHistoryRepository.UpdateAsync(visitHistory);
+            await _visitHistoryRepository.CommitAsync();
 
             return new VisitHistoryDto()
             {

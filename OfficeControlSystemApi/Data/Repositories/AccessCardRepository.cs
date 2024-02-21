@@ -31,21 +31,19 @@ namespace OfficeControlSystemApi.Data.Repositorys
             return query;
         }
 
-        public async Task AddAsync(AccessCard entity)
+        public async Task CommitAsync()
         {
-            await _dbContext.Set<AccessCard>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(AccessCard entity)
+        public async Task AddAsync(AccessCard entity)
         {
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Set<AccessCard>().AddAsync(entity);
         }
 
         public async Task DeleteAsync(AccessCard entity)
         {
             _dbContext.Set<AccessCard>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
         }
     }
 }
