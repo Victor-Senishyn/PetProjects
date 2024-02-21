@@ -10,16 +10,13 @@ namespace OfficeControlSystemApi.Controllers
     {
         private readonly IVisitHistoryService _visitHistoryService;
         private readonly ICreateVisitHistoryCommand _createVisitHistoryCommand;
-        private readonly AppDbContext _dbContext;
 
         public VisitHistoryController(
             IVisitHistoryService visitHistoryService,
-            ICreateVisitHistoryCommand createVisitHistoryCommand,
-            AppDbContext dbContext)
+            ICreateVisitHistoryCommand createVisitHistoryCommand)
         {
             _visitHistoryService = visitHistoryService;
             _createVisitHistoryCommand = createVisitHistoryCommand;
-            _dbContext = dbContext;
         }
 
         [HttpPatch("exit/{visitHistoryId}")]
@@ -43,23 +40,14 @@ namespace OfficeControlSystemApi.Controllers
         [HttpPost("visit/{accessCardId}")]
         public async Task<IActionResult> AddVisitHistory(long accessCardId, CancellationToken cancellationToken)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-
             try
             {
-                await transaction.CommitAsync(cancellationToken);
                 return new OkObjectResult(await _createVisitHistoryCommand.ExecuteAsync(accessCardId, cancellationToken));
             }
             catch (ArgumentException ex)
             {
                 return new BadRequestObjectResult(ex.Message);
             }
-            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
-            {
-                await transaction.RollbackAsync(cancellationToken);
-                return new BadRequestObjectResult("Request canceled due to user action or timeout.");
-            }
-
         }
     }
 }
