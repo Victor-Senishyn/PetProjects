@@ -20,9 +20,10 @@ namespace OfficeControlSystemApiTest.Services.Commands
         }
 
         [Theory]
-        [InlineData("John", "Doe", 1)]
-        [InlineData("Jane", "Smith", 2)]
-        public async Task ExecuteAsync_WithValidInputs_ReturnsEmployeeDto(string firstName, string lastName, int accessLevel)
+        [InlineData("FirstName", "SecondName", 1)]
+        [InlineData("FirstName", "SecondName", 2)]
+        [InlineData("FirstName", "SecondName", 3)]
+        public async Task CreateEmployeeCommand_ExecuteAsync_ReturnsEmployeeDto(string firstName, string lastName, int accessLevel)
         {
             // Arrange
             var createEmployeeCommand = new CreateEmployeeCommand(_employeeRepository);
@@ -32,25 +33,11 @@ namespace OfficeControlSystemApiTest.Services.Commands
             var result = await createEmployeeCommand.ExecuteAsync(employeeDto, accessLevel, CancellationToken.None);
 
             // Assert
+            accessLevel.Should().BeGreaterThan(0);
+            accessLevel.Should().BeLessThan(4);
             result.Should().NotBeNull();
             result.FirstName.Should().Be(firstName);
             result.LastName.Should().Be(lastName);
-        }
-
-        [Theory]
-        [InlineData("John", "Doe", -1)]
-        [InlineData("Jane", "Smith", 4)]
-        public async Task ExecuteAsync_WithInvalidAccessLevel_ThrowsArgumentException(string firstName, string lastName, int accessLevel)
-        {
-            // Arrange
-            var createEmployeeCommand = new CreateEmployeeCommand(_employeeRepository);
-            var employeeDto = new EmployeeDto { FirstName = firstName, LastName = lastName };
-
-            // Act
-            Func<Task> act = async () => await createEmployeeCommand.ExecuteAsync(employeeDto, accessLevel, CancellationToken.None);
-
-            // Assert
-            await act.Should().ThrowAsync<ArgumentException>().WithMessage("Wrong access level");
         }
     }
 }

@@ -10,46 +10,40 @@ namespace OfficeControlSystemApi.Services.Commands
 {
     public class CreateVisitHistoryCommand : ICreateVisitHistoryCommand
     {
-        private readonly AppDbContext _dbContext;
         private readonly IAccessCardRepository _accessCardRepository;
 
-
         public CreateVisitHistoryCommand(
-            AppDbContext dbContext,
             IAccessCardRepository accessCardRepository
             )
         {
-            _dbContext = dbContext;
             _accessCardRepository = accessCardRepository;
         }
 
         public async Task<VisitHistoryDto> ExecuteAsync(long accessCardId, CancellationToken cancellationToken)
         {
-            
-                var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = accessCardId })).SingleOrDefault();
+            var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = accessCardId })).SingleOrDefault();
 
-                if (accessCard == null)
-                    throw new ArgumentException($"Access Card by Id {accessCardId} not found");
+            if (accessCard == null)
+                throw new ArgumentException($"Access Card by Id {accessCardId} not found");
 
-                var visitHistory = new VisitHistory
-                {
-                    AccessCardId = accessCard.Id,
-                    VisitDateTime = DateTimeOffset.UtcNow
-                };
+            var visitHistory = new VisitHistory
+            {
+                AccessCardId = accessCard.Id,
+                VisitDateTime = DateTimeOffset.UtcNow
+            };
 
-                accessCard.VisitHistories.Add( visitHistory );
-                await _accessCardRepository.CommitAsync();
+            accessCard.VisitHistories.Add( visitHistory );
+            await _accessCardRepository.CommitAsync();
 
-                var visitHistoryDto = new VisitHistoryDto
-                {
-                    Id = visitHistory.Id,
-                    AccessCardId = visitHistory.AccessCardId,
-                    VisitDateTime = visitHistory.VisitDateTime,
-                    ExitDateTime = visitHistory.ExitDateTime
-                };
+            var visitHistoryDto = new VisitHistoryDto
+            {
+                Id = visitHistory.Id,
+                AccessCardId = visitHistory.AccessCardId,
+                VisitDateTime = visitHistory.VisitDateTime,
+                ExitDateTime = visitHistory.ExitDateTime
+            };
 
-                return visitHistoryDto;
-            
+            return visitHistoryDto;
         }
     }
 }
