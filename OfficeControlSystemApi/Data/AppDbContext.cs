@@ -1,14 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Models;
-using System.Reflection.Metadata;
+using OfficeControlSystemApi.Models.Identity;
 
 namespace OfficeControlSystemApi.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         protected readonly IConfiguration Configuration;
 
-        public AppDbContext(IConfiguration configuration)
+        public AppDbContext(IConfiguration configuration, 
+            DbContextOptions<AppDbContext> options) : base(options) 
         {
             Configuration = configuration;
         }
@@ -20,6 +23,8 @@ namespace OfficeControlSystemApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<AccessCard>()
                 .HasOne<Employee>()
                 .WithMany(e => e.AccessCards)

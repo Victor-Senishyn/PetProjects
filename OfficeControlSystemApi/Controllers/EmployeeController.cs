@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services;
 using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Services.Interaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace OfficeControlSystemApi.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly ICreateEmployeeCommand _createEmployeeCommand;

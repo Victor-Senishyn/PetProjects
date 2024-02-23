@@ -7,10 +7,11 @@ using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Data.Repositorys;
 using Microsoft.AspNetCore.Identity;
+using OfficeControlSystemApi.Models.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication();//
+builder.Services.AddAuthentication();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
+builder.Services.AddAuthorization();//
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -32,7 +34,6 @@ builder.Services.AddScoped<IVisitHistoryRepository, VisitHistoryRepository>();
 builder.Services.AddScoped<ICreateEmployeeCommand, CreateEmployeeCommand>();
 builder.Services.AddScoped<ICreateVisitHistoryCommand, CreateVisitHistoryCommand>();
 
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -44,5 +45,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.MapIdentityApi<IdentityUser>();//
 
 app.Run();
