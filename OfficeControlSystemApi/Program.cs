@@ -7,7 +7,8 @@ using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Data.Repositorys;
 using Microsoft.AspNetCore.Identity;
-using OfficeControlSystemApi.Models.Identity;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +16,20 @@ builder.Services.AddAuthentication();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme{
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
-builder.Services.AddAuthorization();//
+builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -46,6 +56,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.MapIdentityApi<IdentityUser>();//
+app.MapIdentityApi<IdentityUser>();
 
 app.Run();

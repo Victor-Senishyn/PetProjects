@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Services;
 using OfficeControlSystemApi.Services.Commands;
@@ -19,7 +20,7 @@ namespace OfficeControlSystemApi.Controllers
             _createVisitHistoryCommand = createVisitHistoryCommand;
         }
 
-        [HttpPatch("exit/{visitHistoryId}")]
+        [HttpPatch("exit/{visitHistoryId}"), Authorize]
         public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId, CancellationToken cancellationToken)
         {
             try
@@ -37,7 +38,7 @@ namespace OfficeControlSystemApi.Controllers
             }
         }
 
-        [HttpPost("visit/{accessCardId}")]
+        [HttpPost("visit/{accessCardId}"), Authorize]
         public async Task<IActionResult> AddVisitHistory(long accessCardId, CancellationToken cancellationToken)
         {
             try

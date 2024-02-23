@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Models;
-using OfficeControlSystemApi.Models.Identity;
 
 namespace OfficeControlSystemApi.Data
 {

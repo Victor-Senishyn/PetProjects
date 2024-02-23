@@ -10,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OfficeControlSystemApi.Controllers
 {
-    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly ICreateEmployeeCommand _createEmployeeCommand;
@@ -21,7 +20,7 @@ namespace OfficeControlSystemApi.Controllers
             _createEmployeeCommand = createEmployeeCommand;
         }
 
-        [HttpPost("employee/{accessLevel}")]
+        [HttpPost("employee/{accessLevel}"), Authorize]
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput, int accessLevel, CancellationToken cancellationToken)
         {
             try
