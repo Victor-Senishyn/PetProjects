@@ -2,7 +2,7 @@
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Data.Filters;
 using OfficeControlSystemApi.Data.Interfaces;
-using OfficeControlSystemApi.Data.Repositorys;
+using OfficeControlSystemApi.Data.Repositories;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.DTOs;
 using OfficeControlSystemApi.Services.Interaces;

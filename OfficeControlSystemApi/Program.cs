@@ -1,18 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Services.Interaces;
 using OfficeControlSystemApi.Services;
 using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Data.Interfaces;
-using OfficeControlSystemApi.Data.Repositorys;
+using OfficeControlSystemApi.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using OfficeControlSystemApi.Models.Enums;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -30,8 +33,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
 builder.Services.AddAuthorization();
+
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole",
+         policy => policy.RequireRole("Administrator"));
+});//
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+});//
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAccessCardService, AccessCardService>();
@@ -53,6 +68,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseAuthorization();//
+//app.UseAuthentication();//
 
 app.MapControllers();
 

@@ -6,7 +6,7 @@ using System.Linq;
 using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Data.Filters;
 
-namespace OfficeControlSystemApi.Data.Repositorys
+namespace OfficeControlSystemApi.Data.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {

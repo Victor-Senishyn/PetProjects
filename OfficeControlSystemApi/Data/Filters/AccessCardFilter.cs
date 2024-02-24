@@ -1,4 +1,4 @@
-﻿using OfficeControlSystemApi.Models;
+﻿using OfficeControlSystemApi.Models.Enums;
 
 namespace OfficeControlSystemApi.Data.Filters
 {

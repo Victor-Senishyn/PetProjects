@@ -3,6 +3,7 @@ using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Models;
 using OfficeControlSystemApi.Models.DTOs;
+using OfficeControlSystemApi.Models.Enums;
 using OfficeControlSystemApi.Services.Interaces;
 
 namespace OfficeControlSystemApi.Services.Commands

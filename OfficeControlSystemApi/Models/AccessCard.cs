@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using OfficeControlSystemApi.Models.Interface;
+using OfficeControlSystemApi.Models.Enums;
 
 namespace OfficeControlSystemApi.Models
 {
