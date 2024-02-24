@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace OfficeControlSystemApi.Data.Repositorys
+namespace OfficeControlSystemApi.Data.Repositories
 {
     public class AccessCardRepository: IAccessCardRepository
     {

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using OfficeControlSystemApi.Data.Repositorys;
+using OfficeControlSystemApi.Data.Repositories;
 using OfficeControlSystemApi.Services.Commands;
 using FakeItEasy;
 

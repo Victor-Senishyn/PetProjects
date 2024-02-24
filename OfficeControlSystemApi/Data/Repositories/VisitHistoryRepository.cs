@@ -6,7 +6,7 @@ using OfficeControlSystemApi.Models.Interface;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OfficeControlSystemApi.Data.Repositorys
+namespace OfficeControlSystemApi.Data.Repositories
 {
     public class VisitHistoryRepository : IVisitHistoryRepository
     {

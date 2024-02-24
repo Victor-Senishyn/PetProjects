@@ -38,7 +38,7 @@ namespace OfficeControlSystemApi.Controllers
             }
         }
 
-        [HttpPost("visit/{accessCardId}"), Authorize]
+        [HttpPost("visit/{accessCardId}"), Authorize(Roles = "Administrator,User")]
         public async Task<IActionResult> AddVisitHistory(long accessCardId, CancellationToken cancellationToken)
         {
             try

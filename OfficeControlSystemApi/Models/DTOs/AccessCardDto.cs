@@ -1,4 +1,5 @@
-﻿using OfficeControlSystemApi.Models.Interface;
+﻿using OfficeControlSystemApi.Models.Enums;
+using OfficeControlSystemApi.Models.Interface;
 
 namespace OfficeControlSystemApi.Models.DTOs
 {
