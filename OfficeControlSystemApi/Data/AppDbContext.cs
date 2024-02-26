@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Models;
+using OfficeControlSystemApi.Models.Identity;
 
 namespace OfficeControlSystemApi.Data
 {
@@ -33,5 +34,6 @@ namespace OfficeControlSystemApi.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<AccessCard> AccessCards { get; set; }
         public DbSet<VisitHistory> VisitHistories { get; set; }
+        public DbSet<User> Users {  get; set; }
     }
 }

@@ -5,6 +5,7 @@ using OfficeControlSystemApi.Models.Enums;
 
 namespace OfficeControlSystemApi.Models
 {
+    [Table("access_card")]
     public class AccessCard : IEntity
     {
         [Key]

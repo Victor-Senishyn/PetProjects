@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OfficeControlSystemApi.Data;
@@ -11,9 +12,11 @@ using OfficeControlSystemApi.Data;
 namespace OfficeControlSystemApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240226200716_added_users")]
+    partial class added_users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +88,11 @@ namespace OfficeControlSystemApi.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -136,7 +144,9 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.UseTptMappingStrategy();
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -238,7 +248,7 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("access_card");
+                    b.ToTable("AccessCards");
                 });
 
             modelBuilder.Entity("OfficeControlSystemApi.Models.Employee", b =>
@@ -259,7 +269,7 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("OfficeControlSystemApi.Models.VisitHistory", b =>
@@ -283,7 +293,7 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasIndex("AccessCardId");
 
-                    b.ToTable("visit_history");
+                    b.ToTable("VisitHistories");
                 });
 
             modelBuilder.Entity("OfficeControlSystemApi.Models.Identity.User", b =>
@@ -311,7 +321,7 @@ namespace OfficeControlSystemApi.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("user");
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -394,12 +404,6 @@ namespace OfficeControlSystemApi.Migrations
                     b.HasOne("OfficeControlSystemApi.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("OfficeControlSystemApi.Models.Identity.User", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

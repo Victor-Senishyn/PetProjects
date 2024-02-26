@@ -4,6 +4,7 @@ using OfficeControlSystemApi.Models.Interface;
 
 namespace OfficeControlSystemApi.Models
 {
+    [Table("visit_history")]
     public class VisitHistory : IEntity
     {
         [Key]

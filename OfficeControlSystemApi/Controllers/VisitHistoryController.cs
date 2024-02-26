@@ -20,7 +20,7 @@ namespace OfficeControlSystemApi.Controllers
             _createVisitHistoryCommand = createVisitHistoryCommand;
         }
 
-        [HttpPatch("exit/{visitHistoryId}"), Authorize]
+        [HttpPatch("exit/{visitHistoryId}"), Authorize(Roles = "Administrator,User")]
         public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId, CancellationToken cancellationToken)
         {
             try
