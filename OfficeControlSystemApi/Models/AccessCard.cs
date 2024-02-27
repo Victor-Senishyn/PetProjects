@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using OfficeControlSystemApi.Models.Interface;
 using OfficeControlSystemApi.Models.Enums;
+using OfficeControlSystemApi.Models.Identity;
 
 namespace OfficeControlSystemApi.Models
 {

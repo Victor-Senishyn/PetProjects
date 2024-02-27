@@ -22,7 +22,10 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("employee/{accessLevel}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeInput, int accessLevel, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateEmployee(
+            [FromBody] EmployeeDto employeeInput, 
+            int accessLevel, 
+            CancellationToken cancellationToken)
         {
             try
             {

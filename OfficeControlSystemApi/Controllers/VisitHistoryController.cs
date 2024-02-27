@@ -21,7 +21,9 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPatch("exit/{visitHistoryId}"), Authorize(Roles = "Administrator,User")]
-        public async Task<IActionResult> UpdateExitDateTimeAsync(long visitHistoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateExitDateTimeAsync(
+            long visitHistoryId, 
+            CancellationToken cancellationToken)
         {
             try
             {
@@ -39,7 +41,9 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("visit/{accessCardId}"), Authorize(Roles = "Administrator,User")]
-        public async Task<IActionResult> AddVisitHistory(long accessCardId, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddVisitHistory(
+            long accessCardId, 
+            CancellationToken cancellationToken)
         {
             try
             {

@@ -6,7 +6,7 @@ using OfficeControlSystemApi.Models.Identity;
 
 namespace OfficeControlSystemApi.Data
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<User>
     {
         protected readonly IConfiguration Configuration;
 

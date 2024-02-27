@@ -50,9 +50,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
-builder.Services.AddAuthorization();
-
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<User>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -63,12 +61,14 @@ builder.Services.AddAuthorization(options =>
 });//
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+    options.AddPolicy("RequireUserRole", 
+        policy => policy.RequireRole("User"));
 });//
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAccessCardService, AccessCardService>();
 builder.Services.AddScoped<IVisitHistoryService, VisitHistoryService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAccessCardRepository, AccessCardRepository>();
@@ -92,6 +92,6 @@ app.UseAuthentication();
 
 app.MapControllers();
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<User>();
 
 app.Run();
