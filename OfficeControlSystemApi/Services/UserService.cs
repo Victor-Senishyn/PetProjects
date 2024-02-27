@@ -23,22 +23,21 @@ namespace OfficeControlSystemApi.Services
         }
 
         public async Task CreateAdministratorUserAsync(
-            UserCreationModel user, 
+            UserCreationModel userModel, 
             CancellationToken cancellationToken = default)
         {
             if (!await _roleManager.RoleExistsAsync("Administrator"))
                 await _roleManager.CreateAsync(new IdentityRole("Administrator"));
 
-            var adminUser = new User
-            {
-                UserName = user.UserName,
-                Email = user.Email,
-            };
+            var user = _dbContext.Users.Where( u => u.Email == userModel.Email).SingleOrDefault();
+            
+            if (user == null)
+                throw new ArgumentException();
 
-            var result = await _userManager.CreateAsync(adminUser, user.Password);
+            var result = await _userManager.CreateAsync(user, userModel.Password);
 
             if (result.Succeeded)
-                await _userManager.AddToRoleAsync(adminUser, "Administrator");
+                await _userManager.AddToRoleAsync(user, "Administrator");
 
             await _dbContext.SaveChangesAsync();
         }

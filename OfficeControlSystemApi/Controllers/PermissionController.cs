@@ -28,8 +28,14 @@ namespace OfficeControlSystemApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _userService.CreateAdministratorUserAsync(user, cancellationToken);
+            try
+            {
+                await _userService.CreateAdministratorUserAsync(user, cancellationToken);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest("Wrong data");
+            }
 
             return Ok("Admin user created successfully.");
         }
