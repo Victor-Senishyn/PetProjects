@@ -19,7 +19,6 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -58,12 +57,19 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdministratorRole",
          policy => policy.RequireRole("Administrator"));
-});//
+});
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireUserRole", 
         policy => policy.RequireRole("User"));
-});//
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorOrUserRole", 
+        policy => policy.RequireRole("Administrator", "User"));
+});
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAccessCardService, AccessCardService>();
@@ -87,8 +93,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

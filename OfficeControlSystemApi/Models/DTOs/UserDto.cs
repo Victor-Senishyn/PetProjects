@@ -6,6 +6,5 @@ namespace OfficeControlSystemApi.Models.DTOs
     {
         public long Id { get; set; }
         public string Login { get; set; }
-        public Permission Permission { get; set; }
     }
 }

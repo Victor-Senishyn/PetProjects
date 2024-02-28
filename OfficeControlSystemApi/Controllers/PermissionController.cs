@@ -39,19 +39,5 @@ namespace OfficeControlSystemApi.Controllers
 
             return Ok("Admin user created successfully.");
         }
-
-        //[HttpGet("{username}")]
-        //public IActionResult Get(string username)
-        //{
-        //    var claims = new List<Claim> { new Claim(ClaimTypes.Name, username) };
-        //    var jwt = new JwtSecurityToken(
-        //        issuer: AuthOptions.ISSUER,
-        //        audience: AuthOptions.AUDIENCE,
-        //        claims: claims,
-        //        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-        //        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-        //    return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
-        //}
     }
 }

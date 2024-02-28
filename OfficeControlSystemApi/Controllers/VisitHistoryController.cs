@@ -20,7 +20,8 @@ namespace OfficeControlSystemApi.Controllers
             _createVisitHistoryCommand = createVisitHistoryCommand;
         }
 
-        [HttpPatch("exit/{visitHistoryId}"), Authorize(Roles = "Administrator,User")]
+        [HttpPatch("exit/{visitHistoryId}")]
+        [Authorize(Policy = "RequireAdministratorOrUserRole")]
         public async Task<IActionResult> UpdateExitDateTimeAsync(
             long visitHistoryId, 
             CancellationToken cancellationToken)
@@ -40,7 +41,8 @@ namespace OfficeControlSystemApi.Controllers
             }
         }
 
-        [HttpPost("visit/{accessCardId}"), Authorize(Roles = "Administrator,User")]
+        [HttpPost("visit/{accessCardId}")]
+        [Authorize(Policy = "RequireAdministratorOrUserRole")]
         public async Task<IActionResult> AddVisitHistory(
             long accessCardId, 
             CancellationToken cancellationToken)
