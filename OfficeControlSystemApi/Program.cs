@@ -16,20 +16,23 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton(new AuthOptions(builder.Configuration));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var authOptions = new AuthOptions(builder.Configuration);
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = AuthOptions.ISSUER,
+            ValidIssuer = authOptions.ISSUER,
             ValidateAudience = true,
-            ValidAudience = AuthOptions.AUDIENCE,
+            ValidAudience = authOptions.AUDIENCE,
             ValidateLifetime = true,
-            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
             ValidateIssuerSigningKey = true,
         };
     });
