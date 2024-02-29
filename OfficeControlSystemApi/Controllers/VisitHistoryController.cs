@@ -21,7 +21,7 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPatch("exit/{visitHistoryId}")]
-        [Authorize(Policy = "RequireAdministratorOrUserRole")]
+        [Authorize(Policy = "AdministratorOrUserPolicy")]
         public async Task<IActionResult> UpdateExitDateTimeAsync(
             long visitHistoryId, 
             CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("visit/{accessCardId}")]
-        [Authorize(Policy = "RequireAdministratorOrUserRole")]
+        [Authorize(Policy = "AdministratorOrUserPolicy")]
         public async Task<IActionResult> AddVisitHistory(
             long accessCardId, 
             CancellationToken cancellationToken)

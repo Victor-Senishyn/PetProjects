@@ -70,7 +70,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdministratorOrUserPolice", 
+    options.AddPolicy("AdministratorOrUserPolicy", 
         policy => policy.RequireRole("Administrator", "User"));
 });
 
