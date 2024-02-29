@@ -22,24 +22,53 @@ namespace OfficeControlSystemApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task CreateAdministratorUserAsync(
-            UserCreationModel userModel, 
+        public async Task CreateUserAsync(
+            UserCreationModel userModel,
+            CancellationToken cancellationToken = default)
+        {
+            if (!await _roleManager.RoleExistsAsync("User"))
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+
+            var user = new User
+            {
+                UserName = userModel.Email,
+                Email = userModel.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, userModel.Password);
+
+            if (!result.Succeeded)
+                throw new Exception($"Failed to create user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+
+            if (!await _userManager.IsInRoleAsync(user, "User"))
+                await _userManager.AddToRoleAsync(user, "User");
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateAdministratorAsync(
+            UserCreationModel userModel,
             CancellationToken cancellationToken = default)
         {
             if (!await _roleManager.RoleExistsAsync("Administrator"))
                 await _roleManager.CreateAsync(new IdentityRole("Administrator"));
 
-            var user = _dbContext.Users.Where( u => u.Email == userModel.Email).SingleOrDefault();
-            
-            if (user == null)
-                throw new ArgumentException();
+            var user = new User
+            {
+                UserName = userModel.Email,
+                Email = userModel.Email
+            };
 
             var result = await _userManager.CreateAsync(user, userModel.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
+                throw new Exception($"Failed to create user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+
+            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
                 await _userManager.AddToRoleAsync(user, "Administrator");
 
             await _dbContext.SaveChangesAsync();
         }
+
     }
 }

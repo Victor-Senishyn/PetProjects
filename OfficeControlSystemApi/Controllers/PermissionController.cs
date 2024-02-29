@@ -21,6 +21,24 @@ namespace OfficeControlSystemApi.Controllers
             _userService = userService;
         }
 
+        [HttpPost("administrator/")]
+        public async Task<IActionResult> CreateUser(
+            [FromBody] UserCreationModel user,
+            CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await _userService.CreateAdministratorAsync(user, cancellationToken);
+                return Ok("Adminstrator created successfully.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest("Wrong data");
+            }
+        }
+
         [HttpPost("user/")]
         public async Task<IActionResult> CreateAdministrator(
             [FromBody] UserCreationModel user,
@@ -30,14 +48,13 @@ namespace OfficeControlSystemApi.Controllers
                 return BadRequest(ModelState);
             try
             {
-                await _userService.CreateAdministratorUserAsync(user, cancellationToken);
+                await _userService.CreateUserAsync(user, cancellationToken);
+                return Ok("User created successfully.");
             }
             catch (ArgumentException ex)
             {
                 return BadRequest("Wrong data");
             }
-
-            return Ok("Admin user created successfully.");
         }
     }
 }

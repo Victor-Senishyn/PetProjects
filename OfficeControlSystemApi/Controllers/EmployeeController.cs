@@ -22,7 +22,7 @@ namespace OfficeControlSystemApi.Controllers
         }
 
         [HttpPost("employee/{accessLevel}")]
-        [Authorize(Policy = "RequireAdministratorRole")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateEmployee(
             [FromBody] EmployeeDto employeeInput, 
             int accessLevel, 

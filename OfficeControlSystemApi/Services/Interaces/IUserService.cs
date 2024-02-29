@@ -4,6 +4,7 @@ namespace OfficeControlSystemApi.Services.Interaces
 {
     public interface IUserService
     {
-        Task CreateAdministratorUserAsync(UserCreationModel user, CancellationToken cancellationToken);
+        Task CreateUserAsync(UserCreationModel user, CancellationToken cancellationToken);
+        Task CreateAdministratorAsync(UserCreationModel userModel, CancellationToken cancellationToken = default);
     }
 }
