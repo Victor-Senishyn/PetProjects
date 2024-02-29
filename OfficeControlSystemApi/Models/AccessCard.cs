@@ -6,7 +6,7 @@ using OfficeControlSystemApi.Models.Identity;
 
 namespace OfficeControlSystemApi.Models
 {
-    [Table("access_card")]
+    [Table(nameof(AccessCard))]
     public class AccessCard : IEntity
     {
         [Key]

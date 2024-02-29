@@ -4,7 +4,7 @@ using OfficeControlSystemApi.Models.Interface;
 
 namespace OfficeControlSystemApi.Models
 {
-    [Table("employee")]
+    [Table(nameof(Employee))]
     public class Employee : IEntity
     { 
         [Key]
