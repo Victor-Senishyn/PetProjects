@@ -58,19 +58,19 @@ builder.Services.AddIdentityApiEndpoints<User>()
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdministratorRole",
+    options.AddPolicy("AdministratorPolicy",
          policy => policy.RequireRole("Administrator"));
 });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireUserRole", 
+    options.AddPolicy("UserPolicy", 
         policy => policy.RequireRole("User"));
 });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdministratorOrUserRole", 
+    options.AddPolicy("AdministratorOrUserPolice", 
         policy => policy.RequireRole("Administrator", "User"));
 });
 
