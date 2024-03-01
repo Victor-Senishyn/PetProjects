@@ -5,16 +5,10 @@ namespace OfficeControlSystemApi.Services
 {
     public class AuthOptions
     {
-        public string ISSUER { get; }
-        public string AUDIENCE { get; }
-        public string KEY { get; }
-
-        public AuthOptions(IConfiguration configuration)
-        {
-            ISSUER = configuration["AuthOptions:ISSUER"]!;
-            AUDIENCE = configuration["AuthOptions:AUDIENCE"]!;
-            KEY = configuration["AuthOptions:KEY"]!;
-        }
+        public const string AUTH_OPTIONS = "AuthOptions";
+        public string ISSUER { get; set; } = string.Empty;
+        public string AUDIENCE { get; set; } = string.Empty;
+        public string KEY { get; set; } = string.Empty;
 
         public SymmetricSecurityKey GetSymmetricSecurityKey() =>
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));

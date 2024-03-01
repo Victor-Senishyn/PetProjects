@@ -20,22 +20,8 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton(new AuthOptions(builder.Configuration));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var authOptions = new AuthOptions(builder.Configuration);
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = authOptions.ISSUER,
-            ValidateAudience = true,
-            ValidAudience = authOptions.AUDIENCE,
-            ValidateLifetime = true,
-            IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
-            ValidateIssuerSigningKey = true,
-        };
-    });
+builder.Services.Configure<AuthOptions>(
+    builder.Configuration.GetSection(AuthOptions.AUTH_OPTIONS));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

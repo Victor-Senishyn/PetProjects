@@ -19,7 +19,9 @@ namespace OfficeControlSystemApi.Services.Commands
             _accessCardRepository = accessCardRepository;
         }
 
-        public async Task<VisitHistoryDto> ExecuteAsync(long accessCardId, CancellationToken cancellationToken)
+        public async Task<VisitHistoryDto> ExecuteAsync(
+            long accessCardId, 
+            CancellationToken cancellationToken)
         {
             var accessCard = (await _accessCardRepository.GetAsync(new AccessCardFilter() { Id = accessCardId })).SingleOrDefault();
 

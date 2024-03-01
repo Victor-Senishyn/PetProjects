@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeControlSystemApi.Data;
 using OfficeControlSystemApi.Models.DTOs;
+using OfficeControlSystemApi.Models.Enums;
 using OfficeControlSystemApi.Services;
 using OfficeControlSystemApi.Services.Commands;
 using OfficeControlSystemApi.Services.Interaces;
@@ -25,7 +26,7 @@ namespace OfficeControlSystemApi.Controllers
         [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> CreateEmployee(
             [FromBody] EmployeeDto employeeInput, 
-            int accessLevel, 
+            AccessLevel accessLevel, 
             CancellationToken cancellationToken)
         {
             try

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OfficeControlSystemApi.Models.Identity
 {
-    [Table("user")]
+    [Table(nameof(User))]
     public class User : IdentityUser
     {
         public long EmployeeId { get; set; }

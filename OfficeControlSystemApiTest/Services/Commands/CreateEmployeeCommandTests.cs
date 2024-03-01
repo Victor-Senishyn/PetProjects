@@ -2,6 +2,7 @@
 using FluentAssertions;
 using OfficeControlSystemApi.Data.Interfaces;
 using OfficeControlSystemApi.Models.DTOs;
+using OfficeControlSystemApi.Models.Enums;
 using OfficeControlSystemApi.Services.Commands;
 using System;
 using System.Threading;
@@ -20,10 +21,13 @@ namespace OfficeControlSystemApiTest.Services.Commands
         }
 
         [Theory]
-        [InlineData("FirstName", "SecondName", 1)]
-        [InlineData("FirstName", "SecondName", 2)]
-        [InlineData("FirstName", "SecondName", 3)]
-        public async Task CreateEmployeeCommand_ExecuteAsync_ReturnsEmployeeDto(string firstName, string lastName, int accessLevel)
+        [InlineData("FirstName", "SecondName", AccessLevel.Low)]
+        [InlineData("FirstName", "SecondName", AccessLevel.Medium)]
+        [InlineData("FirstName", "SecondName", AccessLevel.High)]
+        public async Task CreateEmployeeCommand_ExecuteAsync_ReturnsEmployeeDto(
+            string firstName, 
+            string lastName, 
+            AccessLevel accessLevel)
         {
             // Arrange
             var createEmployeeCommand = new CreateEmployeeCommand(_employeeRepository);
@@ -33,8 +37,8 @@ namespace OfficeControlSystemApiTest.Services.Commands
             var result = await createEmployeeCommand.ExecuteAsync(employeeDto, accessLevel, CancellationToken.None);
 
             // Assert
-            accessLevel.Should().BeGreaterThan(0);
-            accessLevel.Should().BeLessThan(4);
+            ((int)accessLevel).Should().BeGreaterThan(0);
+            ((int)accessLevel).Should().BeLessThan(4);
             result.Should().NotBeNull();
             result.FirstName.Should().Be(firstName);
             result.LastName.Should().Be(lastName);
