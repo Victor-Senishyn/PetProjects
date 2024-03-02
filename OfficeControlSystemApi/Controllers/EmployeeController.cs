@@ -29,14 +29,7 @@ namespace OfficeControlSystemApi.Controllers
             AccessLevel accessLevel, 
             CancellationToken cancellationToken)
         {
-            try
-            {
-                return new OkObjectResult(await _createEmployeeCommand.ExecuteAsync(employeeInput, accessLevel, cancellationToken));
-            }
-            catch (ArgumentException ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            return new OkObjectResult(await _createEmployeeCommand.ExecuteAsync(employeeInput, accessLevel, cancellationToken));
         }
     }
 }

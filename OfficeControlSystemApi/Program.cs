@@ -17,6 +17,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using Microsoft.Extensions.Configuration;
+using OfficeControlSystemApi.Middlewares;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,10 +62,7 @@ builder.Services.AddAuthorization(options =>
         policy => policy.RequireRole("Administrator", "User"));
 });
 
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<IAccessCardService, AccessCardService>();
 builder.Services.AddScoped<IVisitHistoryService, VisitHistoryService>();
-builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAccessCardRepository, AccessCardRepository>();
@@ -71,6 +70,11 @@ builder.Services.AddScoped<IVisitHistoryRepository, VisitHistoryRepository>();
 
 builder.Services.AddScoped<ICreateEmployeeCommand, CreateEmployeeCommand>();
 builder.Services.AddScoped<ICreateVisitHistoryCommand, CreateVisitHistoryCommand>();
+builder.Services.AddScoped<ICreateUserCommand, CreateUserCommand>();
+
+builder.Services.AddLogging();
+
+builder.Services.AddTransient<GlobalArgumentExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
@@ -84,6 +88,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalArgumentExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

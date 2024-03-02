@@ -31,10 +31,6 @@ namespace OfficeControlSystemApi.Controllers
                 var visitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId, cancellationToken);
                 return Ok(visitHistory);
             }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
-            }
             catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
             {
                 return BadRequest("Request canceled due to user action or timeout.");
@@ -47,14 +43,7 @@ namespace OfficeControlSystemApi.Controllers
             long accessCardId, 
             CancellationToken cancellationToken)
         {
-            try
-            {
-                return new OkObjectResult(await _createVisitHistoryCommand.ExecuteAsync(accessCardId, cancellationToken));
-            }
-            catch (ArgumentException ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            return new OkObjectResult(await _createVisitHistoryCommand.ExecuteAsync(accessCardId, cancellationToken));
         }
     }
 }
