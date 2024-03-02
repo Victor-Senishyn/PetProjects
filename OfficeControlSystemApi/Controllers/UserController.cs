@@ -13,17 +13,17 @@ using System.Security.Claims;
 
 namespace OfficeControlSystemApi.Controllers
 {
-    public class PermissionController : Controller
+    public class UserController : Controller
     {
         private readonly ICreateUserCommand _createUserCommand;
 
-        public PermissionController(
+        public UserController(
             ICreateUserCommand userCommand)
         {
             _createUserCommand = userCommand;
         }
 
-        [HttpPost("user/")]
+        [HttpPost("/user")]
         public async Task<IActionResult> CreateUser(
             [FromBody] UserCreationModel user,
             UserRole role,

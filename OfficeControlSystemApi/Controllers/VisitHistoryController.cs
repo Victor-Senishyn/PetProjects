@@ -20,24 +20,16 @@ namespace OfficeControlSystemApi.Controllers
             _createVisitHistoryCommand = createVisitHistoryCommand;
         }
 
-        [HttpPatch("exit/{visitHistoryId}")]
+        [HttpPatch("/exit/{visitHistoryId}")]
         [Authorize(Policy = "AdministratorOrUserPolicy")]
         public async Task<IActionResult> UpdateExitDateTimeAsync(
             long visitHistoryId, 
             CancellationToken cancellationToken)
         {
-            try
-            {
-                var visitHistory = await _visitHistoryService.UpdateExitDateTime(visitHistoryId, cancellationToken);
-                return Ok(visitHistory);
-            }
-            catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
-            {
-                return BadRequest("Request canceled due to user action or timeout.");
-            }
+            return BadRequest("Request canceled due to user action or timeout.");
         }
 
-        [HttpPost("visit/{accessCardId}")]
+        [HttpPost("/visit/{accessCardId}")]
         [Authorize(Policy = "AdministratorOrUserPolicy")]
         public async Task<IActionResult> AddVisitHistory(
             long accessCardId, 

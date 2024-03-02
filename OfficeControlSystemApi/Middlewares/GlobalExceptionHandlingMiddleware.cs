@@ -2,12 +2,12 @@
 
 namespace OfficeControlSystemApi.Middlewares
 {
-    public class GlobalArgumentExceptionHandlingMiddleware : IMiddleware
+    public class GlobalExceptionHandlingMiddleware : IMiddleware
     {
         private readonly ILogger _logger;
 
-        public GlobalArgumentExceptionHandlingMiddleware(
-            ILogger<GlobalArgumentExceptionHandlingMiddleware> logger)
+        public GlobalExceptionHandlingMiddleware(
+            ILogger<GlobalExceptionHandlingMiddleware> logger)
         {
             _logger = logger;
         }
@@ -18,7 +18,7 @@ namespace OfficeControlSystemApi.Middlewares
             {
                 await next(context);
             }
-            catch (ArgumentException e)
+            catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

@@ -22,7 +22,7 @@ namespace OfficeControlSystemApi.Controllers
             _createEmployeeCommand = createEmployeeCommand;
         }
 
-        [HttpPost("employee/{accessLevel}")]
+        [HttpPost("/employee/{accessLevel}")]
         [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> CreateEmployee(
             [FromBody] EmployeeDto employeeInput, 

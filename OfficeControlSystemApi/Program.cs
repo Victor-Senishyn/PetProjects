@@ -23,7 +23,7 @@ using Microsoft.Extensions.Logging;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<AuthOptions>(
-    builder.Configuration.GetSection(AuthOptions.AUTH_OPTIONS));
+    builder.Configuration.GetSection(nameof(AuthOptions)));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -74,7 +74,7 @@ builder.Services.AddScoped<ICreateUserCommand, CreateUserCommand>();
 
 builder.Services.AddLogging();
 
-builder.Services.AddTransient<GlobalArgumentExceptionHandlingMiddleware>();
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
@@ -89,7 +89,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<GlobalArgumentExceptionHandlingMiddleware>();
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
