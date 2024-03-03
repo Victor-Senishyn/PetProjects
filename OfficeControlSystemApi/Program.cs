@@ -78,6 +78,14 @@ builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
+using (var container = app.Services.CreateScope())
+{
+    var db = container.ServiceProvider.GetService<AppDbContext>();
+    var pendingMirgrations = db.Database.GetPendingMigrations();
+    if (pendingMirgrations.Any())
+        db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

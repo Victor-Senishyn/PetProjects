@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace OfficeControlSystemApiTest.Services.Commands
+namespace OfficeControlSystemTest.Services.Commands
 {
     public class CreateEmployeeCommandTests
     {

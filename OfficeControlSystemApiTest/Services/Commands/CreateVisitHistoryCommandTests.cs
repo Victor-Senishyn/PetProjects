@@ -12,7 +12,7 @@ using OfficeControlSystemApi.Data.Repositories;
 using OfficeControlSystemApi.Services.Commands;
 using FakeItEasy;
 
-namespace OfficeControlSystemApiTest.Services.Commands
+namespace OfficeControlSystemTest.Services.Commands
 {
     public class CreateVisitHistoryCommandTests
     {

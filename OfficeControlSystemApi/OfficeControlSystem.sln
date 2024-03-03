@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfficeControlSystemApi", "OfficeControlSystemApi.csproj", "{7DF5E9A8-0AB4-459D-8732-8EBA903F6A3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeControlSystemApiTest", "..\OfficeControlSystemApiTest\OfficeControlSystemApiTest.csproj", "{37FD7120-E3E2-49D5-81A4-4127B64E5561}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfficeControlSystemTest", "..\OfficeControlSystemApiTest\OfficeControlSystemTest.csproj", "{37FD7120-E3E2-49D5-81A4-4127B64E5561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

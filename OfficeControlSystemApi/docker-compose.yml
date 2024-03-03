@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    container_name: some-postgres
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'OfficeControlSystemDbDocker'
+    restart: always
+    networks:
+      - "office_control_system_network"
+  office_control_system_services:
+    container_name: office_control_system_webapi
+    image: office_control_system_api
+    ports:
+      - "8000:80"
+    restart: always
+    networks:
+      - "office_control_system_network"
+
+networks:
+  office_control_system_network:
+    driver: bridge
