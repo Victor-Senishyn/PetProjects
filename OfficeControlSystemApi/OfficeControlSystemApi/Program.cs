@@ -19,6 +19,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using OfficeControlSystemApi.Middlewares;
 using Microsoft.Extensions.Logging;
+using OfficeControlSystemApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +83,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OfficeControlSystem"));
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();
