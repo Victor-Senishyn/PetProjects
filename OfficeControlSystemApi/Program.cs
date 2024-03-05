@@ -25,6 +25,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AuthOptions>(
     builder.Configuration.GetSection(nameof(AuthOptions)));
 
+
+//builder.Services.Configure<ConnectionStrings>(
+//    builder.Configuration.GetSection(nameof(ConnectionStrings))
+//);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -79,12 +84,12 @@ builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 var app = builder.Build();
 
 using (var container = app.Services.CreateScope())
-{
-    var db = container.ServiceProvider.GetService<AppDbContext>();
-    var pendingMirgrations = db.Database.GetPendingMigrations();
-    if (pendingMirgrations.Any())
-        db.Database.Migrate();
-}
+            {
+                var db = container.ServiceProvider.GetService<AppDbContext>();
+                var pendingMirgrations = db.Database.GetPendingMigrations();
+                if (pendingMirgrations.Any())
+                    db.Database.Migrate();
+            }
 
 if (app.Environment.IsDevelopment())
 {
