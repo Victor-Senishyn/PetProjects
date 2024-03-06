@@ -17,7 +17,5 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: officecontrolsystem
-    volumes:
-      - ./.containers/officecontrolsystem-db:/var/lib/postgresql/data
     ports:
       - 5432:5432
