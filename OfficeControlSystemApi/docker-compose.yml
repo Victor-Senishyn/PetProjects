@@ -10,12 +10,12 @@ services:
     ports:
       - "5000:5000"
       - "5001:5001"
-  officecontrolsystem-database:
+  officecontrolsystem.database:
     image: postgres:latest
-    container_name: officecontrolsystem-database
+    container_name: officecontrolsystem.database
     environment:
-      POSTGRES_PASSWORD: 60I3B7A53A2Y4587$
-      POSTGRES_USER: ocxifxaeit
-      POSTGRES_DB: officecontrolsystem-database
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: officecontrolsystem
     ports:
       - 5432:5432
